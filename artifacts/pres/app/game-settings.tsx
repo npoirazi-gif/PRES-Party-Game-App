@@ -4,6 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Feather } from '@expo/vector-icons';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { games } from '@/data/games';
 
 // ─── Toggle ─────────────────────────────────────────────────────────────────
 function Toggle({ value, onChange }: { value: boolean; onChange: (v: boolean) => void }) {
@@ -29,6 +30,8 @@ export default function GameSettings() {
   const insets = useSafeAreaInsets();
   const { id } = useLocalSearchParams<{ id?: string }>();
 
+  const game = games.find(g => g.id === id);
+
   const [mostLikely, setMostLikely] = useState(true);
   const [name3, setName3] = useState(false);
   const [punishments, setPunishments] = useState(true);
@@ -48,11 +51,14 @@ export default function GameSettings() {
   return (
     <LinearGradient colors={['#0a031d', '#1a0b3b']} style={s.screen}>
       {/* Header */}
-      <View style={[s.header, { paddingTop: insets.top + 16 }]}>
+      <View style={[s.header, { paddingTop: insets.top + 28 }]}>
         <Pressable onPress={() => router.back()} style={s.iconBtn}>
           <Feather name="arrow-left" size={22} color="#fff" />
         </Pressable>
-        <Text style={s.headerTitle}>Settings</Text>
+        <View style={s.headerCenter}>
+          <Text style={s.headerTitle}>{game?.title ?? 'Game'}</Text>
+          <Text style={s.headerSub}>SETTINGS</Text>
+        </View>
         <Pressable onPress={() => {}} style={s.iconBtn}>
           <Feather name="globe" size={22} color="#fff" />
         </Pressable>
@@ -186,7 +192,9 @@ export default function GameSettings() {
 const s = StyleSheet.create({
   screen: { flex: 1 },
   header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 20, paddingBottom: 8 },
-  headerTitle: { color: '#fff', fontSize: 22, fontWeight: '800' },
+  headerCenter: { alignItems: 'center' },
+  headerTitle: { color: '#fff', fontSize: 20, fontWeight: '800' },
+  headerSub: { color: 'rgba(185,178,230,0.7)', fontSize: 10, fontWeight: '800', letterSpacing: 2, marginTop: 2 },
   iconBtn: { width: 48, height: 48, borderRadius: 16, backgroundColor: 'rgba(255,255,255,0.07)', borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)', alignItems: 'center', justifyContent: 'center' },
   content: { paddingHorizontal: 20, paddingTop: 18, gap: 20 },
 
