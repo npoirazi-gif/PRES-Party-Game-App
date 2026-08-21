@@ -80,7 +80,7 @@ export default function Home() {
             {games.map(game => (
               <Pressable
                 key={game.id}
-                onPress={() => { addRecent(game.id); router.push({ pathname: '/game/[id]', params: { id: game.id } }); }}
+                onPress={() => { addRecent(game.id); router.push({ pathname: '/game-settings', params: { id: game.id } }); }}
                 style={({ pressed }) => [s.gameCard, pressed && s.pressed]}
               >
                 <View style={s.gameSticker}>
