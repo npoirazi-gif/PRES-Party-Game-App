@@ -39,9 +39,9 @@ export default function GameSettings() {
 
   function handleContinue() {
     if (id) {
-      router.push({ pathname: '/themes', params: { id } });
+      router.push({ pathname: '/themes', params: { id, roundLength } });
     } else {
-      router.push('/themes');
+      router.push({ pathname: '/themes', params: { roundLength } });
     }
   }
 

@@ -65,7 +65,7 @@ function Toggle({ value, onChange }: { value: boolean; onChange: (v: boolean) =>
 export default function Themes() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
-  const { id } = useLocalSearchParams<{ id?: string }>();
+  const { id, roundLength } = useLocalSearchParams<{ id?: string; roundLength?: string }>();
 
   const [enabled, setEnabled] = useState<Record<ThemeKey, boolean>>({
     casual: true,
@@ -81,7 +81,7 @@ export default function Themes() {
 
   function handlePlay() {
     if (id) {
-      router.push({ pathname: '/game/[id]', params: { id } });
+      router.push({ pathname: '/game/[id]', params: { id, roundLength: roundLength ?? 'medium' } });
     } else {
       router.push('/library');
     }
