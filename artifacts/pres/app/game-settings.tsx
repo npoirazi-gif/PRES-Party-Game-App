@@ -51,7 +51,7 @@ export default function GameSettings() {
   return (
     <LinearGradient colors={['#0a031d', '#1a0b3b']} style={s.screen}>
       {/* Header */}
-      <View style={[s.header, { paddingTop: insets.top + 28 }]}>
+      <View style={[s.header, { paddingTop: insets.top + 52 }]}>
         <Pressable onPress={() => router.back()} style={s.iconBtn}>
           <Feather name="arrow-left" size={22} color="#fff" />
         </Pressable>
