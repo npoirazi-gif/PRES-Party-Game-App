@@ -63,7 +63,7 @@ export default function Home() {
         {/* PRES logo — centred in remaining space */}
         <View style={s.entry}>
           <Pressable onPress={() => router.push('/library')} style={({ pressed }) => [pressed && s.logoPressed]}>
-            <Image source={require('@/assets/images/pres-logo.png')} style={s.logoImg} resizeMode="contain" />
+            <Image source={require('@/assets/images/pres-logo-transparent.png')} style={s.logoImg} resizeMode="contain" />
           </Pressable>
           <Text style={s.tap}>TAP TO ENTER LIBRARY</Text>
         </View>
@@ -119,8 +119,8 @@ const s = StyleSheet.create({
   seeAll: { backgroundColor: 'rgba(255,255,255,0.12)', borderRadius: 99, paddingHorizontal: 12, paddingVertical: 5 },
   seeAllText: { color: c.text, fontSize: 11, fontWeight: '800', letterSpacing: 1 },
   gameScroll: { gap: 12, paddingBottom: 4 },
-  gameCard: { width: 104, alignItems: 'center' },
-  gameSticker: { width: 104, height: 104, borderRadius: 18, backgroundColor: '#FFFFFF', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', marginBottom: 8 },
-  gameStickerImg: { width: 94, height: 94, backgroundColor: '#FFFFFF' },
-  gameCardName: { color: 'rgba(255,255,255,0.85)', fontSize: 11, fontWeight: '700', textAlign: 'center', lineHeight: 14 },
+  gameCard: { width: 124, alignItems: 'center' },
+  gameSticker: { width: 124, height: 124, borderRadius: 20, backgroundColor: '#FFFFFF', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', marginBottom: 8 },
+  gameStickerImg: { width: 112, height: 112, backgroundColor: '#FFFFFF' },
+  gameCardName: { color: 'rgba(255,255,255,0.85)', fontSize: 12, fontWeight: '700', textAlign: 'center', lineHeight: 15 },
 });
