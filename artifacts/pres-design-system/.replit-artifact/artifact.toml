@@ -1,0 +1,19 @@
+kind = "design-system"
+previewPath = "/pres-design-system/"
+title = "PRES Design System"
+description = "Token-driven design system extracted from the PRES Party Game app. Captures the nightlife party aesthetic: deep indigo/navy surfaces, violet primary actions, coral accents, Inter typography, rounded cards, pill badges, sticker panels, and high-contrast uppercase labels — all designed for UK university students pre-drinks sessions."
+version = "1.0.0"
+id = "artifacts/pres-design-system"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/pres-design-system/" ]
+localPort = 22592
+
+[services.development]
+run = "pnpm --filter @workspace/pres-design-system run dev"
+
+[services.env]
+PORT = "22592"
+BASE_PATH = "/pres-design-system/"
