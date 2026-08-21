@@ -53,7 +53,7 @@ export default function Library() {
       <Pressable onPress={() => router.back()} style={styles.back}><Feather name="arrow-left" size={22} color={c.text} /></Pressable>
       <View style={styles.heading}><Text style={styles.title}>Games</Text><Text style={styles.sub}>Select a game to start the party.</Text></View>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.filters}>{filters.map((item) => <Pressable key={item} onPress={() => setFilter(item)} style={[styles.filter, filter === item && styles.activeFilter]}><Text style={[styles.filterText, filter === item && styles.activeFilterText]}>{item}</Text></Pressable>)}</ScrollView>
-      <View style={styles.grid}>{shown.map((game, index) => <GameCard key={game.id} game={game} index={index} onPress={() => { addRecent(game.id); router.push({ pathname: '/game/[id]', params: { id: game.id } }); }} />)}</View>
+      <View style={styles.grid}>{shown.map((game, index) => <GameCard key={game.id} game={game} index={index} onPress={() => { addRecent(game.id); router.push({ pathname: '/game-settings', params: { id: game.id } }); }} />)}</View>
     </ScrollView>
   </LinearGradient>;
 }
