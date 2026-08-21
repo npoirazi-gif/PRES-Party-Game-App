@@ -1,0 +1,163 @@
+<!DOCTYPE html><html class="dark" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>PRES Game Library</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        /* Custom styles for the grid and masking to replicate the stickers */
+        .sticker-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 24px;
+            transition: all 0.2s ease-in-out;
+        }
+        .sticker-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+        /* Assuming the image is a 4x4 sprite sheet */
+        .sprite-container {
+            width: 100%;
+            padding-bottom: 100%; /* 1:1 Aspect Ratio */
+            position: relative;
+            overflow: hidden;
+            border-radius: 16px;
+        }
+        .sprite-img {
+            position: absolute;
+            width: 400%; /* 4 columns */
+            height: 400%; /* 4 rows */
+            max-width: none;
+            max-height: none;
+        }
+        /* Sprite Positions */
+        .pos-1 { top: 0%; left: 0%; }
+        .pos-2 { top: 0%; left: -100%; }
+        .pos-3 { top: 0%; left: -200%; }
+        .pos-4 { top: 0%; left: -300%; }
+        .pos-5 { top: -100%; left: 0%; }
+        .pos-6 { top: -100%; left: -100%; }
+        .pos-7 { top: -100%; left: -200%; }
+        .pos-8 { top: -100%; left: -300%; }
+        .pos-9 { top: -200%; left: 0%; }
+        .pos-10 { top: -200%; left: -100%; }
+        .pos-11 { top: -200%; left: -200%; }
+        .pos-12 { top: -200%; left: -300%; }
+        .pos-13 { top: -300%; left: 0%; }
+        .pos-14 { top: -300%; left: -100%; }
+        .pos-15 { top: -300%; left: -200%; }
+        .pos-16 { top: -300%; left: -300%; }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary-fixed-variant": "#8f0041",
+                    "on-error-container": "#ffdad6",
+                    "on-primary-fixed-variant": "#374e00",
+                    "surface-bright": "#37393a",
+                    "primary-fixed-dim": "#a0d800",
+                    "surface-container-lowest": "#0c0f0f",
+                    "outline-variant": "#434933",
+                    "outline": "#8c9479",
+                    "secondary-fixed-dim": "#ffb1c3",
+                    "secondary-container": "#ff4b89",
+                    "background": "#121414",
+                    "on-secondary": "#66002c",
+                    "on-tertiary": "#002388",
+                    "inverse-surface": "#e2e2e2",
+                    "tertiary": "#ffffff",
+                    "primary": "#ffffff",
+                    "on-surface-variant": "#c2caad",
+                    "inverse-on-surface": "#2f3131",
+                    "primary-container": "#b7f700",
+                    "surface-container": "#1e2020",
+                    "surface-container-low": "#1a1c1c",
+                    "tertiary-fixed-dim": "#b8c3ff",
+                    "surface-variant": "#333535",
+                    "on-background": "#e2e2e2",
+                    "surface-container-highest": "#333535",
+                    "tertiary-container": "#dde1ff",
+                    "on-error": "#690005",
+                    "surface-container-high": "#282a2b",
+                    "on-primary-fixed": "#141f00",
+                    "tertiary-fixed": "#dde1ff",
+                    "error": "#ffb4ab",
+                    "on-surface": "#e2e2e2",
+                    "on-tertiary-fixed": "#001356",
+                    "on-secondary-container": "#590026",
+                    "secondary-fixed": "#ffd9e0",
+                    "surface-tint": "#a0d800",
+                    "surface-dim": "#121414",
+                    "secondary": "#ffb1c3",
+                    "on-secondary-fixed": "#3f0019",
+                    "inverse-primary": "#4b6700",
+                    "on-primary": "#253600",
+                    "error-container": "#93000a",
+                    "primary-fixed": "#b7f700",
+                    "on-primary-container": "#506e00",
+                    "surface": "#121414",
+                    "on-tertiary-fixed-variant": "#0035be",
+                    "on-tertiary-container": "#1f51f6"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "unit": "8px",
+                    "element-gap": "16px",
+                    "container-padding-desktop": "64px",
+                    "container-padding-mobile": "24px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Plus Jakarta Sans"],
+                    "display-lg-mobile": ["Plus Jakarta Sans"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "label-bold": ["Plus Jakarta Sans"],
+                    "body-md": ["Plus Jakarta Sans"],
+                    "display-lg": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "body-lg": ["18px", {"lineHeight": "28px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "display-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "0.02em", "fontWeight": "800"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "0.01em", "fontWeight": "700"}],
+                    "label-bold": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "800"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "0.02em", "fontWeight": "800"}]
+            }
+          }
+        }
+      }
+    </script>
+</head>
+<body class="bg-background text-on-background min-h-screen relative overflow-x-hidden" style="background: linear-gradient(rgb(54, 17, 210) 0%, rgb(20, 11, 74) 100%);">
+<!-- Decorative background elements -->
+<div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+<div class="absolute top-[-10%] left-[-10%] w-1/2 h-1/2 bg-secondary-container/20 rounded-full blur-[100px]"></div>
+<div class="absolute bottom-[-10%] right-[-10%] w-1/2 h-1/2 bg-primary-container/20 rounded-full blur-[100px]"></div>
+</div>
+<!-- TopAppBar from JSON -->
+<!-- Main Content Canvas -->
+<main class="relative z-10 px-container-padding-mobile md:px-container-padding-desktop pb-[120px] max-w-7xl mx-auto"><header class="flex items-center w-full mb-6 pt-4"><button aria-label="Back to Home" class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-sm hover:bg-white/20 transition-colors border border-white/10 shadow-xl" onclick="window.location.href='{{DATA:SCREEN:SCREEN_8}}'"><span class="material-symbols-outlined text-white">arrow_back</span></button></header>
+<div class="mb-8 text-center md:text-left"><h2 class="font-display-lg-mobile text-display-lg-mobile text-white mb-2">Games</h2><p class="font-body-md text-body-md text-white/80">Select a game to start the party.</p><div class="flex flex-wrap gap-2 mt-6 justify-center md:justify-start"><button class="px-4 py-2 rounded-full bg-white text-background font-bold text-xs uppercase tracking-wider">All</button><button class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-white font-bold text-xs uppercase tracking-wider transition-colors border border-white/10">Party Classic</button><button class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-white font-bold text-xs uppercase tracking-wider transition-colors border border-white/10">Spicy</button><button class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-white font-bold text-xs uppercase tracking-wider transition-colors border border-white/10">Casual</button></div></div>
+<!-- 2-Column Grid -->
+<div class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8"><!-- Game 1 --><div class="border border-white/10 rounded-[2rem] flex flex-col items-center text-center cursor-pointer hover:scale-105 transition-transform shadow-xl bg-surface-container-lowest p-3" style="background: linear-gradient(rgb(44, 20, 150) 0%, rgb(20, 11, 74) 100%);"><div class="w-full aspect-square bg-white rounded-2xl mb-4 flex items-center justify-center overflow-hidden p-2"><div class="sprite-container w-full h-full relative overflow-hidden"><img alt="Never Have I Ever" class="sprite-img pos-1 absolute w-[400%] h-[400%] max-w-none" src="https://lh3.googleusercontent.com/aida/AEtjO1W0u-hdIx85mSvLqAvGoYPG7EjPYCv041cHsq2mNiGFlnEn8pusrC8AAqrV8pzjdIK3dRBUTQMJx1NSlf_iO7YGvIUr26U5j_XNNuGIJhsfA4G0MKSg5rgIbr1xptkjO1Wi2Hk-SYHaJL9szyQjQHqPQ5ScWLO6DWIVGVFMM6Qq_RVbVmJ0bIUPMSiF9hYrRJvXSLB9hsDY5f7V_zBOUe5MGF4qWY8HhM7iYCLiPr8GK0ahNcQ2dASluII"></div></div><h3 class="font-bold text-xl text-white mb-1">Never Have I</h3><p class="text-white/60 text-xs mb-3">Expose your past.</p><span class="bg-[#b7f700] text-[#141f00] font-bold text-[10px] px-3 py-1 rounded-lg uppercase tracking-wider">PARTY CLASSIC</span></div><!-- Game 2 --><div class="border border-white/10 rounded-[2rem] flex flex-col items-center text-center cursor-pointer hover:scale-105 transition-transform shadow-xl bg-surface-container-lowest p-3" style="background: linear-gradient(rgb(44, 20, 150) 0%, rgb(20, 11, 74) 100%);"><div class="w-full aspect-square bg-white rounded-2xl mb-4 flex items-center justify-center overflow-hidden p-2"><div class="sprite-container w-full h-full relative overflow-hidden"><img alt="Most Likely To" class="sprite-img pos-2 absolute w-[400%] h-[400%] max-w-none" src="https://lh3.googleusercontent.com/aida/AEtjO1W0u-hdIx85mSvLqAvGoYPG7EjPYCv041cHsq2mNiGFlnEn8pusrC8AAqrV8pzjdIK3dRBUTQMJx1NSlf_iO7YGvIUr26U5j_XNNuGIJhsfA4G0MKSg5rgIbr1xptkjO1Wi2Hk-SYHaJL9szyQjQHqPQ5ScWLO6DWIVGVFMM6Qq_RVbVmJ0bIUPMSiF9hYrRJvXSLB9hsDY5f7V_zBOUe5MGF4qWY8HhM7iYCLiPr8GK0ahNcQ2dASluII"></div></div><h3 class="font-bold text-xl text-white mb-1">Most Likely To</h3><p class="text-white/60 text-xs mb-3">Point some fingers.</p><span class="bg-[#ff4b89] text-white font-bold text-[10px] px-3 py-1 rounded-lg uppercase tracking-wider">SPICY</span></div><!-- Game 3 --><div class="border border-white/10 rounded-[2rem] flex flex-col items-center text-center cursor-pointer hover:scale-105 transition-transform shadow-xl bg-surface-container-lowest p-3" style="background: linear-gradient(rgb(44, 20, 150) 0%, rgb(20, 11, 74) 100%);"><div class="w-full aspect-square bg-white rounded-2xl mb-4 flex items-center justify-center overflow-hidden p-2"><div class="sprite-container w-full h-full relative overflow-hidden"><img alt="Would You Rather" class="sprite-img pos-3 absolute w-[400%] h-[400%] max-w-none" src="https://lh3.googleusercontent.com/aida/AEtjO1W0u-hdIx85mSvLqAvGoYPG7EjPYCv041cHsq2mNiGFlnEn8pusrC8AAqrV8pzjdIK3dRBUTQMJx1NSlf_iO7YGvIUr26U5j_XNNuGIJhsfA4G0MKSg5rgIbr1xptkjO1Wi2Hk-SYHaJL9szyQjQHqPQ5ScWLO6DWIVGVFMM6Qq_RVbVmJ0bIUPMSiF9hYrRJvXSLB9hsDY5f7V_zBOUe5MGF4qWY8HhM7iYCLiPr8GK0ahNcQ2dASluII"></div></div><h3 class="font-bold text-xl text-white mb-1">Would You Rather</h3><p class="text-white/60 text-xs mb-3">Tough choices.</p><span class="bg-white/20 text-white font-bold text-[10px] px-3 py-1 rounded-lg uppercase tracking-wider">CASUAL</span></div><!-- Game 4 --><div class="border border-white/10 rounded-[2rem] flex flex-col items-center text-center cursor-pointer hover:scale-105 transition-transform shadow-xl bg-surface-container-lowest p-3" style="background: linear-gradient(rgb(44, 20, 150) 0%, rgb(20, 11, 74) 100%);"><div class="w-full aspect-square bg-white rounded-2xl mb-4 flex items-center justify-center overflow-hidden p-2"><div class="sprite-container w-full h-full relative overflow-hidden"><img alt="ID Game" class="sprite-img pos-4 absolute w-[400%] h-[400%] max-w-none" src="https://lh3.googleusercontent.com/aida/AEtjO1W0u-hdIx85mSvLqAvGoYPG7EjPYCv041cHsq2mNiGFlnEn8pusrC8AAqrV8pzjdIK3dRBUTQMJx1NSlf_iO7YGvIUr26U5j_XNNuGIJhsfA4G0MKSg5rgIbr1xptkjO1Wi2Hk-SYHaJL9szyQjQHqPQ5ScWLO6DWIVGVFMM6Qq_RVbVmJ0bIUPMSiF9hYrRJvXSLB9hsDY5f7V_zBOUe5MGF4qWY8HhM7iYCLiPr8GK0ahNcQ2dASluII"></div></div><h3 class="font-bold text-xl text-white mb-1">ID Game</h3><p class="text-white/60 text-xs mb-3">Who are you?</p><span class="bg-[#b7f700] text-[#141f00] font-bold text-[10px] px-3 py-1 rounded-lg uppercase tracking-wider">NEW</span></div><!-- Game 5 --><div class="border border-white/10 rounded-[2rem] flex flex-col items-center text-center cursor-pointer hover:scale-105 transition-transform shadow-xl bg-surface-container-lowest p-3" style="background: linear-gradient(rgb(44, 20, 150) 0%, rgb(20, 11, 74) 100%);"><div class="w-full aspect-square bg-white rounded-2xl mb-4 flex items-center justify-center overflow-hidden p-2"><div class="sprite-container w-full h-full relative overflow-hidden"><img alt="Back to Back" class="sprite-img pos-5 absolute w-[400%] h-[400%] max-w-none" src="https://lh3.googleusercontent.com/aida/AEtjO1W0u-hdIx85mSvLqAvGoYPG7EjPYCv041cHsq2mNiGFlnEn8pusrC8AAqrV8pzjdIK3dRBUTQMJx1NSlf_iO7YGvIUr26U5j_XNNuGIJhsfA4G0MKSg5rgIbr1xptkjO1Wi2Hk-SYHaJL9szyQjQHqPQ5ScWLO6DWIVGVFMM6Qq_RVbVmJ0bIUPMSiF9hYrRJvXSLB9hsDY5f7V_zBOUe5MGF4qWY8HhM7iYCLiPr8GK0ahNcQ2dASluII"></div></div><h3 class="font-bold text-xl text-white mb-1">Back to Back</h3><p class="text-white/60 text-xs mb-3">Couples test.</p></div><!-- Game 6 --><div class="border border-white/10 rounded-[2rem] flex flex-col items-center text-center cursor-pointer hover:scale-105 transition-transform shadow-xl bg-surface-container-lowest p-3" style="background: linear-gradient(rgb(44, 20, 150) 0%, rgb(20, 11, 74) 100%);"><div class="w-full aspect-square bg-white rounded-2xl mb-4 flex items-center justify-center overflow-hidden p-2"><div class="sprite-container w-full h-full relative overflow-hidden"><img alt="Paranoia" class="sprite-img pos-6 absolute w-[400%] h-[400%] max-w-none" src="https://lh3.googleusercontent.com/aida/AEtjO1W0u-hdIx85mSvLqAvGoYPG7EjPYCv041cHsq2mNiGFlnEn8pusrC8AAqrV8pzjdIK3dRBUTQMJx1NSlf_iO7YGvIUr26U5j_XNNuGIJhsfA4G0MKSg5rgIbr1xptkjO1Wi2Hk-SYHaJL9szyQjQHqPQ5ScWLO6DWIVGVFMM6Qq_RVbVmJ0bIUPMSiF9hYrRJvXSLB9hsDY5f7V_zBOUe5MGF4qWY8HhM7iYCLiPr8GK0ahNcQ2dASluII"></div></div><h3 class="font-bold text-xl text-white mb-1">Paranoia</h3><p class="text-white/60 text-xs mb-3">Whisper secrets.</p><span class="bg-[#ff4b89] text-white font-bold text-[10px] px-3 py-1 rounded-lg uppercase tracking-wider">SPICY</span></div><!-- Game 7 --><div class="border border-white/10 rounded-[2rem] flex flex-col items-center text-center cursor-pointer hover:scale-105 transition-transform shadow-xl bg-surface-container-lowest p-3" style="background: linear-gradient(rgb(44, 20, 150) 0%, rgb(20, 11, 74) 100%);"><div class="w-full aspect-square bg-white rounded-2xl mb-4 flex items-center justify-center overflow-hidden p-2"><div class="sprite-container w-full h-full relative overflow-hidden"><img alt="Truth or Drink" class="sprite-img pos-7 absolute w-[400%] h-[400%] max-w-none" src="https://lh3.googleusercontent.com/aida/AEtjO1W0u-hdIx85mSvLqAvGoYPG7EjPYCv041cHsq2mNiGFlnEn8pusrC8AAqrV8pzjdIK3dRBUTQMJx1NSlf_iO7YGvIUr26U5j_XNNuGIJhsfA4G0MKSg5rgIbr1xptkjO1Wi2Hk-SYHaJL9szyQjQHqPQ5ScWLO6DWIVGVFMM6Qq_RVbVmJ0bIUPMSiF9hYrRJvXSLB9hsDY5f7V_zBOUe5MGF4qWY8HhM7iYCLiPr8GK0ahNcQ2dASluII"></div></div><h3 class="font-bold text-xl text-white mb-1">Truth or Drink</h3><p class="text-white/60 text-xs mb-3">Spill or sip.</p><span class="bg-[#b7f700] text-[#141f00] font-bold text-[10px] px-3 py-1 rounded-lg uppercase tracking-wider">PARTY CLASSIC</span></div><!-- Game 8 --><div class="border border-white/10 rounded-[2rem] flex flex-col items-center text-center cursor-pointer hover:scale-105 transition-transform shadow-xl bg-surface-container-lowest p-3" style="background: linear-gradient(rgb(44, 20, 150) 0%, rgb(20, 11, 74) 100%);"><div class="w-full aspect-square bg-white rounded-2xl mb-4 flex items-center justify-center overflow-hidden p-2"><div class="sprite-container w-full h-full relative overflow-hidden"><img alt="Hot Seat" class="sprite-img pos-8 absolute w-[400%] h-[400%] max-w-none" src="https://lh3.googleusercontent.com/aida/AEtjO1W0u-hdIx85mSvLqAvGoYPG7EjPYCv041cHsq2mNiGFlnEn8pusrC8AAqrV8pzjdIK3dRBUTQMJx1NSlf_iO7YGvIUr26U5j_XNNuGIJhsfA4G0MKSg5rgIbr1xptkjO1Wi2Hk-SYHaJL9szyQjQHqPQ5ScWLO6DWIVGVFMM6Qq_RVbVmJ0bIUPMSiF9hYrRJvXSLB9hsDY5f7V_zBOUe5MGF4qWY8HhM7iYCLiPr8GK0ahNcQ2dASluII"></div></div><h3 class="font-bold text-xl text-white mb-1">Hot Seat</h3><p class="text-white/60 text-xs mb-3">Under pressure.</p></div><!-- Game 9 --><div class="border border-white/10 rounded-[2rem] flex flex-col items-center text-center cursor-pointer hover:scale-105 transition-transform shadow-xl bg-surface-container-lowest p-3" style="background: linear-gradient(rgb(44, 20, 150) 0%, rgb(20, 11, 74) 100%);"><div class="w-full aspect-square bg-white rounded-2xl mb-4 flex items-center justify-center overflow-hidden p-2"><div class="sprite-container w-full h-full relative overflow-hidden"><img alt="Exposed" class="sprite-img pos-9 absolute w-[400%] h-[400%] max-w-none" src="https://lh3.googleusercontent.com/aida/AEtjO1W0u-hdIx85mSvLqAvGoYPG7EjPYCv041cHsq2mNiGFlnEn8pusrC8AAqrV8pzjdIK3dRBUTQMJx1NSlf_iO7YGvIUr26U5j_XNNuGIJhsfA4G0MKSg5rgIbr1xptkjO1Wi2Hk-SYHaJL9szyQjQHqPQ5ScWLO6DWIVGVFMM6Qq_RVbVmJ0bIUPMSiF9hYrRJvXSLB9hsDY5f7V_zBOUe5MGF4qWY8HhM7iYCLiPr8GK0ahNcQ2dASluII"></div></div><h3 class="font-bold text-xl text-white mb-1">Exposed</h3><p class="text-white/60 text-xs mb-3">Nowhere to hide.</p></div><!-- Game 10 --><div class="border border-white/10 rounded-[2rem] flex flex-col items-center text-center cursor-pointer hover:scale-105 transition-transform shadow-xl bg-surface-container-lowest p-3" style="background: linear-gradient(rgb(44, 20, 150) 0%, rgb(20, 11, 74) 100%);"><div class="w-full aspect-square bg-white rounded-2xl mb-4 flex items-center justify-center overflow-hidden p-2"><div class="sprite-container w-full h-full relative overflow-hidden"><img alt="5 Seconds" class="sprite-img pos-10 absolute w-[400%] h-[400%] max-w-none" src="https://lh3.googleusercontent.com/aida/AEtjO1W0u-hdIx85mSvLqAvGoYPG7EjPYCv041cHsq2mNiGFlnEn8pusrC8AAqrV8pzjdIK3dRBUTQMJx1NSlf_iO7YGvIUr26U5j_XNNuGIJhsfA4G0MKSg5rgIbr1xptkjO1Wi2Hk-SYHaJL9szyQjQHqPQ5ScWLO6DWIVGVFMM6Qq_RVbVmJ0bIUPMSiF9hYrRJvXSLB9hsDY5f7V_zBOUe5MGF4qWY8HhM7iYCLiPr8GK0ahNcQ2dASluII"></div></div><h3 class="font-bold text-xl text-white mb-1">5 Seconds</h3><p class="text-white/60 text-xs mb-3">Think fast.</p><span class="bg-white/20 text-white font-bold text-[10px] px-3 py-1 rounded-lg uppercase tracking-wider">CASUAL</span></div><!-- Game 11 --><div class="border border-white/10 rounded-[2rem] flex flex-col items-center text-center cursor-pointer hover:scale-105 transition-transform shadow-xl bg-surface-container-lowest p-3" style="background: linear-gradient(rgb(44, 20, 150) 0%, rgb(20, 11, 74) 100%);"><div class="w-full aspect-square bg-white rounded-2xl mb-4 flex items-center justify-center overflow-hidden p-2"><div class="sprite-container w-full h-full relative overflow-hidden"><img alt="Categories" class="sprite-img pos-11 absolute w-[400%] h-[400%] max-w-none" src="https://lh3.googleusercontent.com/aida/AEtjO1W0u-hdIx85mSvLqAvGoYPG7EjPYCv041cHsq2mNiGFlnEn8pusrC8AAqrV8pzjdIK3dRBUTQMJx1NSlf_iO7YGvIUr26U5j_XNNuGIJhsfA4G0MKSg5rgIbr1xptkjO1Wi2Hk-SYHaJL9szyQjQHqPQ5ScWLO6DWIVGVFMM6Qq_RVbVmJ0bIUPMSiF9hYrRJvXSLB9hsDY5f7V_zBOUe5MGF4qWY8HhM7iYCLiPr8GK0ahNcQ2dASluII"></div></div><h3 class="font-bold text-xl text-white mb-1">Categories</h3><p class="text-white/60 text-xs mb-3">Name them all.</p></div><!-- Game 12 --><div class="border border-white/10 rounded-[2rem] flex flex-col items-center text-center cursor-pointer hover:scale-105 transition-transform shadow-xl bg-surface-container-lowest p-3" style="background: linear-gradient(rgb(44, 20, 150) 0%, rgb(20, 11, 74) 100%);"><div class="w-full aspect-square bg-white rounded-2xl mb-4 flex items-center justify-center overflow-hidden p-2"><div class="sprite-container w-full h-full relative overflow-hidden"><img alt="Receipts" class="sprite-img pos-12 absolute w-[400%] h-[400%] max-w-none" src="https://lh3.googleusercontent.com/aida/AEtjO1W0u-hdIx85mSvLqAvGoYPG7EjPYCv041cHsq2mNiGFlnEn8pusrC8AAqrV8pzjdIK3dRBUTQMJx1NSlf_iO7YGvIUr26U5j_XNNuGIJhsfA4G0MKSg5rgIbr1xptkjO1Wi2Hk-SYHaJL9szyQjQHqPQ5ScWLO6DWIVGVFMM6Qq_RVbVmJ0bIUPMSiF9hYrRJvXSLB9hsDY5f7V_zBOUe5MGF4qWY8HhM7iYCLiPr8GK0ahNcQ2dASluII"></div></div><h3 class="font-bold text-xl text-white mb-1">Receipts</h3><p class="text-white/60 text-xs mb-3">Bring the proof.</p><span class="bg-[#ff4b89] text-white font-bold text-[10px] px-3 py-1 rounded-lg uppercase tracking-wider">SPICY</span></div><!-- Game 13 --><div class="border border-white/10 rounded-[2rem] flex flex-col items-center text-center cursor-pointer hover:scale-105 transition-transform shadow-xl bg-surface-container-lowest p-3" style="background: linear-gradient(rgb(44, 20, 150) 0%, rgb(20, 11, 74) 100%);"><div class="w-full aspect-square bg-white rounded-2xl mb-4 flex items-center justify-center overflow-hidden p-2"><div class="sprite-container w-full h-full relative overflow-hidden"><img alt="Bad Decisions" class="sprite-img pos-13 absolute w-[400%] h-[400%] max-w-none" src="https://lh3.googleusercontent.com/aida/AEtjO1W0u-hdIx85mSvLqAvGoYPG7EjPYCv041cHsq2mNiGFlnEn8pusrC8AAqrV8pzjdIK3dRBUTQMJx1NSlf_iO7YGvIUr26U5j_XNNuGIJhsfA4G0MKSg5rgIbr1xptkjO1Wi2Hk-SYHaJL9szyQjQHqPQ5ScWLO6DWIVGVFMM6Qq_RVbVmJ0bIUPMSiF9hYrRJvXSLB9hsDY5f7V_zBOUe5MGF4qWY8HhM7iYCLiPr8GK0ahNcQ2dASluII"></div></div><h3 class="font-bold text-xl text-white mb-1">Bad Decisions</h3><p class="text-white/60 text-xs mb-3">Own up to it.</p></div><!-- Game 14 --><div class="border border-white/10 rounded-[2rem] flex flex-col items-center text-center cursor-pointer hover:scale-105 transition-transform shadow-xl bg-surface-container-lowest p-3" style="background: linear-gradient(rgb(44, 20, 150) 0%, rgb(20, 11, 74) 100%);"><div class="w-full aspect-square bg-white rounded-2xl mb-4 flex items-center justify-center overflow-hidden p-2"><div class="sprite-container w-full h-full relative overflow-hidden"><img alt="Red Flag / Green Flag" class="sprite-img pos-14 absolute w-[400%] h-[400%] max-w-none" src="https://lh3.googleusercontent.com/aida/AEtjO1W0u-hdIx85mSvLqAvGoYPG7EjPYCv041cHsq2mNiGFlnEn8pusrC8AAqrV8pzjdIK3dRBUTQMJx1NSlf_iO7YGvIUr26U5j_XNNuGIJhsfA4G0MKSg5rgIbr1xptkjO1Wi2Hk-SYHaJL9szyQjQHqPQ5ScWLO6DWIVGVFMM6Qq_RVbVmJ0bIUPMSiF9hYrRJvXSLB9hsDY5f7V_zBOUe5MGF4qWY8HhM7iYCLiPr8GK0ahNcQ2dASluII"></div></div><h3 class="font-bold text-xl text-white mb-1">Red / Green Flag</h3><p class="text-white/60 text-xs mb-3">Dealbreakers.</p></div><!-- Game 15 --><div class="border border-white/10 rounded-[2rem] flex flex-col items-center text-center cursor-pointer hover:scale-105 transition-transform shadow-xl bg-surface-container-lowest p-3" style="background: linear-gradient(rgb(44, 20, 150) 0%, rgb(20, 11, 74) 100%);"><div class="w-full aspect-square bg-white rounded-2xl mb-4 flex items-center justify-center overflow-hidden p-2"><div class="sprite-container w-full h-full relative overflow-hidden"><img alt="Drink If" class="sprite-img pos-15 absolute w-[400%] h-[400%] max-w-none" src="https://lh3.googleusercontent.com/aida/AEtjO1W0u-hdIx85mSvLqAvGoYPG7EjPYCv041cHsq2mNiGFlnEn8pusrC8AAqrV8pzjdIK3dRBUTQMJx1NSlf_iO7YGvIUr26U5j_XNNuGIJhsfA4G0MKSg5rgIbr1xptkjO1Wi2Hk-SYHaJL9szyQjQHqPQ5ScWLO6DWIVGVFMM6Qq_RVbVmJ0bIUPMSiF9hYrRJvXSLB9hsDY5f7V_zBOUe5MGF4qWY8HhM7iYCLiPr8GK0ahNcQ2dASluII"></div></div><h3 class="font-bold text-xl text-white mb-1">Drink If</h3><p class="text-white/60 text-xs mb-3">Just do it.</p><span class="bg-[#b7f700] text-[#141f00] font-bold text-[10px] px-3 py-1 rounded-lg uppercase tracking-wider">PARTY CLASSIC</span></div><!-- Game 16 --><div class="border border-white/10 rounded-[2rem] flex flex-col items-center text-center cursor-pointer hover:scale-105 transition-transform shadow-xl bg-surface-container-lowest p-3" style="background: linear-gradient(rgb(44, 20, 150) 0%, rgb(20, 11, 74) 100%);"><div class="w-full aspect-square bg-white rounded-2xl mb-4 flex items-center justify-center overflow-hidden p-2"><div class="sprite-container w-full h-full relative overflow-hidden"><img alt="Dare or Drink" class="sprite-img pos-16 absolute w-[400%] h-[400%] max-w-none" src="https://lh3.googleusercontent.com/aida/AEtjO1W0u-hdIx85mSvLqAvGoYPG7EjPYCv041cHsq2mNiGFlnEn8pusrC8AAqrV8pzjdIK3dRBUTQMJx1NSlf_iO7YGvIUr26U5j_XNNuGIJhsfA4G0MKSg5rgIbr1xptkjO1Wi2Hk-SYHaJL9szyQjQHqPQ5ScWLO6DWIVGVFMM6Qq_RVbVmJ0bIUPMSiF9hYrRJvXSLB9hsDY5f7V_zBOUe5MGF4qWY8HhM7iYCLiPr8GK0ahNcQ2dASluII"></div></div><h3 class="font-bold text-xl text-white mb-1">Dare or Drink</h3><p class="text-white/60 text-xs mb-3">No backing down.</p><span class="bg-[#ff4b89] text-white font-bold text-[10px] px-3 py-1 rounded-lg uppercase tracking-wider">SPICY</span></div></div>
+</main>
+<!-- BottomNavBar from JSON -->
+</body></html>
