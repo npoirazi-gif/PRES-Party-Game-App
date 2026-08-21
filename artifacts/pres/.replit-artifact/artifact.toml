@@ -1,0 +1,24 @@
+kind = "mobile"
+previewPath = "/"
+title = "PRES Party Game"
+description = "A fast, playful party-game app for UK university pres, with vibe-based recommendations, a full game library, and playable prompts for groups of friends."
+version = "1.0.0"
+id = "artifacts/pres"
+router = "expo-domain"
+
+[[services]]
+name = "expo"
+ensurePreviewReachable = "/status"
+paths = [ "/" ]
+localPort = 19504
+
+[services.development]
+run = "pnpm --filter @workspace/pres run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/pres", "run", "build" ]
+run = [ "pnpm", "--filter", "@workspace/pres", "run", "serve" ]
+
+[services.env]
+PORT = "19504"
+BASE_PATH = "/"

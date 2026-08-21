@@ -1,6 +1,6 @@
-# [Project name]
+# PRES Party Game
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+PRES is a playful mobile party-game app for UK university groups, with vibe-based recommendations and 16 playable games.
 
 ## Run & Operate
 
@@ -22,15 +22,20 @@ _Replace the heading above with the project's name, and this line with one sente
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- `artifacts/pres/app/` — Expo Router screens for home, vibes, recommendations, library, game play, settings, and premium.
+- `artifacts/pres/data/games.ts` — game catalogue, prompt database, and vibe recommendations.
+- `artifacts/pres/context/PresContext.tsx` — local session persistence for selected vibe, recent games, and non-repeating prompts.
+- `artifacts/pres/constants/colors.ts` — PRES visual tokens.
 
 ## Architecture decisions
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- The first build is frontend-only and uses AsyncStorage for lightweight local session persistence; no account is required to play.
+- A single reusable game screen renders game-specific modes (prompt, choice, private, timed, and player-input) from the game catalogue.
+- Prompt selection records shown indexes per game so prompts do not repeat until the current session pool is exhausted.
 
 ## Product
 
-_Describe the high-level user-facing capabilities of this app once they exist._
+Users can pick a pres vibe, browse curated recommendations or the complete library, and play all 16 games with prompts, choices, timers, private reveal, and optional player names.
 
 ## User preferences
 
