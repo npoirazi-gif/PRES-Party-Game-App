@@ -5,6 +5,11 @@ import { Feather } from '@expo/vector-icons';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+// Art-directed gradient stops — intentionally not part of the token set
+const GRAD_BG_TOP = '#180353'; // deep cosmic violet
+const GRAD_BG_BOT = '#0c0022'; // near-black space
+const COLOR_PLAY_BTN = '#3b07f8'; // deep indigo play CTA
+
 const { height: SCREEN_H } = Dimensions.get('window');
 const CARD_H = Math.min(SCREEN_H * 0.65, 500);
 
@@ -88,7 +93,7 @@ export default function Themes() {
   }
 
   return (
-    <LinearGradient colors={['#180353', '#0c0022']} style={s.screen}>
+    <LinearGradient colors={[GRAD_BG_TOP, GRAD_BG_BOT]} style={s.screen}>
       {/* Header */}
       <View style={[s.header, { paddingTop: insets.top + 14 }]}>
         <Pressable onPress={() => router.back()} style={s.backBtn}>
@@ -142,7 +147,7 @@ export default function Themes() {
 
       {/* Play button */}
       <LinearGradient
-        colors={['transparent', '#0c0022']}
+        colors={['transparent', GRAD_BG_BOT]}
         style={[s.bottomBar, { paddingBottom: insets.bottom + 12 }]}
       >
         <Pressable onPress={handlePlay} style={({ pressed }) => [s.playBtn, pressed && { opacity: 0.85 }]}>
@@ -180,6 +185,6 @@ const s = StyleSheet.create({
   thumbOn: { alignSelf: 'flex-end', backgroundColor: '#333' },
 
   bottomBar: { position: 'absolute', bottom: 0, left: 0, right: 0, paddingHorizontal: 24, paddingTop: 32 },
-  playBtn: { backgroundColor: '#3b07f8', borderRadius: 999, paddingVertical: 20, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 10, borderWidth: 1, borderColor: 'rgba(255,255,255,0.2)', shadowColor: '#3b07f8', shadowOpacity: 0.5, shadowRadius: 24, shadowOffset: { width: 0, height: 8 }, elevation: 10 },
+  playBtn: { backgroundColor: COLOR_PLAY_BTN, borderRadius: 999, paddingVertical: 20, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 10, borderWidth: 1, borderColor: 'rgba(255,255,255,0.2)', shadowColor: COLOR_PLAY_BTN, shadowOpacity: 0.5, shadowRadius: 24, shadowOffset: { width: 0, height: 8 }, elevation: 10 },
   playBtnText: { color: '#fff', fontSize: 22, fontWeight: '800' },
 });

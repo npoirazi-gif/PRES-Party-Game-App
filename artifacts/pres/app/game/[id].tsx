@@ -14,11 +14,15 @@ import { Feather } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as Haptics from 'expo-haptics';
-import colors from '@/constants/colors';
+import { dsColor } from '@/constants/ds';
 import { gameById } from '@/data/games';
 import { usePres } from '@/context/PresContext';
 
-const c = colors.light;
+// Art-directed gradient stops — intentionally not part of the token set
+const GRAD_TOP = '#3611D2';
+const GRAD_BOT = '#140B4A';
+
+const c = dsColor;
 
 // Round length → total seconds for the session countdown
 const ROUND_SECONDS: Record<string, number> = {
@@ -223,7 +227,7 @@ const es = StyleSheet.create({
     marginBottom: 22,
   },
   heading: {
-    color: c.text,
+    color: c.foreground,
     fontSize: 32,
     fontWeight: '900',
     letterSpacing: 1,
@@ -478,7 +482,7 @@ export default function GameScreen() {
   };
 
   return (
-    <LinearGradient colors={['#3611D2', '#140B4A']} style={styles.screen}>
+    <LinearGradient colors={[GRAD_TOP, GRAD_BOT]} style={styles.screen}>
       <ScrollView
         contentContainerStyle={[
           styles.content,
@@ -491,11 +495,11 @@ export default function GameScreen() {
         {/* Header */}
         <View style={styles.header}>
           <Pressable onPress={confirmExit} style={styles.icon}>
-            <Feather name="arrow-left" size={20} color={c.text} />
+            <Feather name="arrow-left" size={20} color={c.foreground} />
           </Pressable>
           <Text style={styles.logo}>PRES</Text>
           <Pressable onPress={confirmExit} style={styles.icon}>
-            <Feather name="x" size={20} color={c.text} />
+            <Feather name="x" size={20} color={c.foreground} />
           </Pressable>
         </View>
 
@@ -662,7 +666,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   logo: {
-    color: c.text,
+    color: c.foreground,
     fontWeight: '800',
     fontSize: 24,
     letterSpacing: 3,
@@ -675,7 +679,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255,255,255,0.08)',
   },
   tag: { fontSize: 11, fontWeight: '800', letterSpacing: 1 },
-  title: { color: c.text, fontSize: 30, fontWeight: '800', marginTop: 6 },
+  title: { color: c.foreground, fontSize: 30, fontWeight: '800', marginTop: 6 },
   desc: {
     color: 'rgba(255,255,255,0.63)',
     fontSize: 13,
@@ -694,7 +698,7 @@ const styles = StyleSheet.create({
     marginBottom: 22,
   },
   startHint: { fontWeight: '800', fontSize: 15, marginBottom: 14 },
-  startTitle: { color: c.text, fontSize: 25, fontWeight: '800' },
+  startTitle: { color: c.foreground, fontSize: 25, fontWeight: '800' },
   startSub: {
     color: 'rgba(255,255,255,0.62)',
     textAlign: 'center',
@@ -747,7 +751,7 @@ const styles = StyleSheet.create({
     padding: 24,
   },
   prompt: {
-    color: c.text,
+    color: c.foreground,
     fontSize: 25,
     lineHeight: 34,
     textAlign: 'center',
@@ -764,7 +768,7 @@ const styles = StyleSheet.create({
   },
   choiceLabel: { fontWeight: '800', fontSize: 12, letterSpacing: 1 },
   choiceText: {
-    color: c.text,
+    color: c.foreground,
     fontWeight: '800',
     fontSize: 19,
     lineHeight: 26,
@@ -795,7 +799,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'rgba(255,255,255,0.2)',
     paddingHorizontal: 15,
-    color: c.text,
+    color: c.foreground,
     backgroundColor: 'rgba(255,255,255,0.08)',
   },
 
@@ -820,7 +824,7 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     justifyContent: 'center',
   },
-  skipText: { color: c.text, fontWeight: '800', fontSize: 14 },
+  skipText: { color: c.foreground, fontWeight: '800', fontSize: 14 },
   counter: {
     color: 'rgba(255,255,255,0.35)',
     fontSize: 12,
@@ -832,7 +836,7 @@ const styles = StyleSheet.create({
   // Private notice
   privateNotice: { alignItems: 'center', paddingVertical: 56 },
   noticeTitle: {
-    color: c.text,
+    color: c.foreground,
     fontWeight: '800',
     fontSize: 18,
     letterSpacing: 1,

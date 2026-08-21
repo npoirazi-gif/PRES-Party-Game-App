@@ -6,6 +6,14 @@ import { useRouter, useLocalSearchParams } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { games } from '@/data/games';
 
+// Art-directed gradient stops — intentionally not part of the token set
+const GRAD_BG_TOP = '#0a031d'; // deep space near-black
+const GRAD_BG_BOT = '#1a0b3b'; // dark deep-violet
+const GRAD_FADE_BOT = '#0a031d'; // matches top for bottom fade overlay
+const COLOR_CARD_BG = '#22104d'; // dark violet card surface
+const COLOR_ACCENT_VIOLET = '#5c24ff'; // interactive violet (segments, toggle, CTA)
+const COLOR_DANGER = '#ff3366'; // loser-fate red accent
+
 // ─── Toggle ─────────────────────────────────────────────────────────────────
 function Toggle({ value, onChange }: { value: boolean; onChange: (v: boolean) => void }) {
   return (
@@ -19,7 +27,7 @@ function Toggle({ value, onChange }: { value: boolean; onChange: (v: boolean) =>
 function SectionTitle({ label, accent }: { label: string; accent?: string }) {
   return (
     <View style={s.sectionHeading}>
-      <View style={[s.accentBar, { backgroundColor: accent ?? '#5c24ff' }]} />
+      <View style={[s.accentBar, { backgroundColor: accent ?? COLOR_ACCENT_VIOLET }]} />
       <Text style={s.sectionLabel}>{label}</Text>
     </View>
   );
@@ -49,7 +57,7 @@ export default function GameSettings() {
   }
 
   return (
-    <LinearGradient colors={['#0a031d', '#1a0b3b']} style={s.screen}>
+    <LinearGradient colors={[GRAD_BG_TOP, GRAD_BG_BOT]} style={s.screen}>
       {/* Header */}
       <View style={[s.header, { paddingTop: insets.top + 52 }]}>
         <Pressable onPress={() => router.back()} style={s.iconBtn}>
@@ -90,7 +98,7 @@ export default function GameSettings() {
         </View>
 
         {/* ── Loser's Fate ── */}
-        <SectionTitle label="Loser's fate" accent="#ff3366" />
+        <SectionTitle label="Loser's fate" accent={COLOR_DANGER} />
         <View style={s.fateList}>
           {/* Punishments */}
           <View style={s.fateCard}>
@@ -178,7 +186,7 @@ export default function GameSettings() {
 
       {/* Fixed Continue button */}
       <LinearGradient
-        colors={['transparent', '#0a031d']}
+        colors={['transparent', GRAD_FADE_BOT]}
         style={[s.bottomGradient, { paddingBottom: insets.bottom + 12 }]}
       >
         <Pressable onPress={handleContinue} style={({ pressed }) => [s.continueBtn, pressed && { opacity: 0.85 }]}>
@@ -205,7 +213,7 @@ const s = StyleSheet.create({
 
   // Pick your questions
   twoCol: { flexDirection: 'row', gap: 14 },
-  questionCard: { flex: 1, backgroundColor: '#22104d', borderRadius: 24, padding: 18, borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)', minHeight: 130 },
+  questionCard: { flex: 1, backgroundColor: COLOR_CARD_BG, borderRadius: 24, padding: 18, borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)', minHeight: 130 },
   questionCardOffset: { marginTop: 20 },
   cardToggleRow: { alignItems: 'flex-end', marginBottom: 14 },
   questionTitle: { color: '#fff', fontSize: 16, fontWeight: '800', marginBottom: 4 },
@@ -213,7 +221,7 @@ const s = StyleSheet.create({
 
   // Loser's fate
   fateList: { gap: 14 },
-  fateCard: { backgroundColor: '#22104d', borderRadius: 24, padding: 18, borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)', flexDirection: 'row', alignItems: 'center', gap: 16 },
+  fateCard: { backgroundColor: COLOR_CARD_BG, borderRadius: 24, padding: 18, borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)', flexDirection: 'row', alignItems: 'center', gap: 16 },
   fateImageBox: { width: 90, height: 90, borderRadius: 14, backgroundColor: '#FFFFFF', alignItems: 'center', justifyContent: 'center', flexShrink: 0 },
   fateImage: { width: 80, height: 80, backgroundColor: '#FFFFFF' },
   fateCopy: { flex: 1 },
@@ -224,20 +232,20 @@ const s = StyleSheet.create({
   editBtnText: { color: '#fff', fontSize: 13, fontWeight: '700' },
 
   // Round Length
-  roundCard: { backgroundColor: '#22104d', borderRadius: 24, padding: 22, borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)' },
+  roundCard: { backgroundColor: COLOR_CARD_BG, borderRadius: 24, padding: 22, borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)' },
   roundTop: { marginBottom: 20 },
   roundTitle: { color: '#fff', fontSize: 18, fontWeight: '800', marginBottom: 4 },
   roundSub: { color: 'rgba(163,154,182,1)', fontSize: 13 },
   segmentRow: { flexDirection: 'row', gap: 8 },
   segment: { flex: 1, backgroundColor: 'rgba(255,255,255,0.06)', borderWidth: 1, borderColor: 'rgba(255,255,255,0.12)', borderRadius: 14, paddingVertical: 12, alignItems: 'center' },
-  segmentActive: { backgroundColor: '#5c24ff', borderColor: '#5c24ff' },
+  segmentActive: { backgroundColor: COLOR_ACCENT_VIOLET, borderColor: COLOR_ACCENT_VIOLET },
   segmentText: { color: 'rgba(255,255,255,0.7)', fontSize: 12, fontWeight: '700', textAlign: 'center' },
   segmentTextActive: { color: '#fff' },
   segmentHint: { color: 'rgba(255,255,255,0.5)', fontSize: 10, marginTop: 3 },
 
   // Advanced Settings
   advancedTitle: { color: '#fff', fontSize: 18, fontWeight: '800' },
-  advancedCard: { backgroundColor: '#22104d', borderRadius: 24, paddingHorizontal: 8, paddingVertical: 4, borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)' },
+  advancedCard: { backgroundColor: COLOR_CARD_BG, borderRadius: 24, paddingHorizontal: 8, paddingVertical: 4, borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)' },
   advRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', padding: 14, borderRadius: 16 },
   advLeft: { flexDirection: 'row', alignItems: 'center', gap: 14 },
   advIcon: { width: 40, height: 40, borderRadius: 12, backgroundColor: 'rgba(255,255,255,0.06)', borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)', alignItems: 'center', justifyContent: 'center' },
@@ -246,12 +254,12 @@ const s = StyleSheet.create({
 
   // Toggle
   toggle: { width: 52, height: 30, borderRadius: 15, backgroundColor: '#331a70', justifyContent: 'center', padding: 3 },
-  toggleOn: { backgroundColor: '#5c24ff' },
+  toggleOn: { backgroundColor: COLOR_ACCENT_VIOLET },
   thumb: { width: 24, height: 24, borderRadius: 12, backgroundColor: '#fff', alignSelf: 'flex-start' },
   thumbOn: { alignSelf: 'flex-end' },
 
   // Bottom CTA
   bottomGradient: { position: 'absolute', bottom: 0, left: 0, right: 0, paddingHorizontal: 20, paddingTop: 30 },
-  continueBtn: { backgroundColor: '#5c24ff', borderRadius: 18, paddingVertical: 18, alignItems: 'center', shadowColor: '#5c24ff', shadowOpacity: 0.5, shadowRadius: 20, shadowOffset: { width: 0, height: 8 }, elevation: 10 },
+  continueBtn: { backgroundColor: COLOR_ACCENT_VIOLET, borderRadius: 18, paddingVertical: 18, alignItems: 'center', shadowColor: COLOR_ACCENT_VIOLET, shadowOpacity: 0.5, shadowRadius: 20, shadowOffset: { width: 0, height: 8 }, elevation: 10 },
   continueBtnText: { color: '#fff', fontSize: 18, fontWeight: '900', letterSpacing: 2 },
 });

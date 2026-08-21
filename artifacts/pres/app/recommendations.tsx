@@ -1,5 +1,141 @@
-import React from 'react'; import {Image,Pressable,ScrollView,StyleSheet,Text,View} from 'react-native'; import {LinearGradient} from 'expo-linear-gradient'; import {Feather} from '@expo/vector-icons'; import {useLocalSearchParams,useRouter} from 'expo-router'; import {useSafeAreaInsets} from 'react-native-safe-area-context'; import colors from '@/constants/colors'; import {recommendations,Game} from '@/data/games'; import {usePres} from '@/context/PresContext'; const c=colors.light;
-const gameImages:Record<string,any>={'most-likely-to':require('@/assets/images/games/most-likely-to.png'),'never-have-i-ever':require('@/assets/images/games/never-have-i-ever.png'),'would-you-rather':require('@/assets/images/games/would-you-rather.png'),'id-game':require('@/assets/images/games/id-game.png'),'back-to-back':require('@/assets/images/games/back-to-back.png'),'paranoia':require('@/assets/images/games/paranoia.png'),'truth-or-drink':require('@/assets/images/games/truth-or-drink.png'),'hot-seat':require('@/assets/images/games/hot-seat.png'),'exposed':require('@/assets/images/games/exposed.png'),'5-seconds':require('@/assets/images/games/5-seconds.png'),'categories':require('@/assets/images/games/categories.png'),'receipts':require('@/assets/images/games/receipts.png'),'bad-decisions':require('@/assets/images/games/bad-decisions.png'),'red-green-flag':require('@/assets/images/games/red-green-flag.png'),'drink-if':require('@/assets/images/games/drink-if.png'),'dare-or-drink':require('@/assets/images/games/dare-or-drink.png')};
-export default function Recommendations(){const router=useRouter();const insets=useSafeAreaInsets();const params=useLocalSearchParams<{vibe?:string}>();const data=recommendations(params.vibe||'Pub Pres');const {setVibe,addRecent}=usePres();return <LinearGradient colors={['#3611D2','#140B4A']} style={s.screen}><ScrollView contentContainerStyle={[s.content,{paddingTop:insets.top+18,paddingBottom:insets.bottom+30}]}><View style={s.top}><Pressable onPress={()=>router.back()} style={s.round}><Feather name="arrow-left" size={21} color={c.text}/></Pressable><Text style={s.logo}>PRES</Text><Pressable onPress={()=>router.push('/settings')} style={s.round}><Feather name="settings" size={20} color={c.text}/></Pressable></View><View style={s.heading}><View style={s.badge}><Text style={s.badgeText}>VIBE</Text></View><Text style={s.title}>{data.vibe}</Text><Text style={s.sub}>Games for your pres</Text></View><Pressable onPress={()=>router.push('/vibes')} style={s.change}><Feather name="shuffle" size={17} color={c.text}/><Text style={s.changeText}>Change vibe</Text></Pressable><View style={s.grid}>{data.games.map((game,i)=><GameCard key={game.id} game={game} index={i} onPress={()=>{setVibe(data.vibe);addRecent(game.id);router.push({pathname:'/game-settings',params:{id:game.id}})}}/>)}</View></ScrollView></LinearGradient>}
-function GameCard({game,index,onPress}:{game:Game;index:number;onPress:()=>void}){return <Pressable onPress={onPress} style={({pressed})=>[s.card,pressed&&{opacity:.78,transform:[{scale:.98}]}]}>{gameImages[game.id]?<Image source={gameImages[game.id]} style={s.stickerImg} resizeMode="contain"/>:<View style={[s.sticker,{backgroundColor:game.color}]}/>}<View style={s.copy}><Text style={[s.tag,{color:game.color}]}>{game.tag}</Text><Text style={s.gameTitle}>{game.title}</Text><Text style={s.desc} numberOfLines={2}>{game.short}</Text></View><View style={s.meta}><Text style={s.metaText}><Feather name="users" size={15} color={c.mutedForeground}/> {game.min}</Text><Text style={s.metaText}><Feather name="zap" size={15} color={game.color}/> {game.heat}</Text></View></Pressable>}
-const s=StyleSheet.create({screen:{flex:1},content:{paddingHorizontal:24},top:{flexDirection:'row',justifyContent:'space-between',alignItems:'center'},round:{width:48,height:48,borderRadius:24,backgroundColor:'rgba(255,255,255,0.1)',alignItems:'center',justifyContent:'center',borderWidth:1,borderColor:'rgba(255,255,255,0.16)'},logo:{color:c.text,fontWeight:'800',fontSize:27,letterSpacing:3},heading:{marginTop:38,marginBottom:4},badge:{backgroundColor:'#FF4B89',paddingHorizontal:15,paddingVertical:7,borderRadius:99,alignSelf:'flex-start'},badgeText:{color:'#590026',fontSize:11,fontWeight:'800',letterSpacing:1},title:{color:c.text,fontSize:36,fontWeight:'800',marginTop:11},sub:{color:'rgba(255,255,255,0.65)',fontSize:17,marginTop:4},change:{alignSelf:'flex-start',marginTop:22,marginBottom:26,borderWidth:2,borderColor:c.text,borderRadius:99,paddingHorizontal:18,paddingVertical:11,flexDirection:'row',gap:8,alignItems:'center'},changeText:{color:c.text,fontWeight:'800',fontSize:12},grid:{flexDirection:'row',flexWrap:'wrap',gap:16},card:{width:'47.8%',height:240,borderRadius:24,backgroundColor:'rgba(255,255,255,0.1)',borderWidth:1,borderColor:'rgba(255,255,255,0.2)',padding:16,overflow:'hidden',justifyContent:'space-between'},sticker:{position:'absolute',width:125,height:125,borderRadius:70,right:-44,bottom:-30,opacity:.25},stickerImg:{position:'absolute',width:110,height:110,right:-20,bottom:-10,opacity:.9,backgroundColor:'transparent'},copy:{width:'82%'},tag:{fontSize:10,fontWeight:'800',letterSpacing:1,marginBottom:11},gameTitle:{color:c.text,fontSize:19,fontWeight:'800',lineHeight:24},desc:{color:'rgba(255,255,255,0.65)',fontSize:12,lineHeight:17,marginTop:7},meta:{flexDirection:'row',gap:12,alignItems:'center'},metaText:{color:'rgba(255,255,255,0.72)',fontSize:11,fontWeight:'800'}});
+import React from 'react';
+import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import { Feather } from '@expo/vector-icons';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { dsColor } from '@/constants/ds';
+import { recommendations, Game } from '@/data/games';
+import { usePres } from '@/context/PresContext';
+
+// Art-directed gradient stops — intentionally not part of the token set
+const GRAD_TOP = '#3611D2';
+const GRAD_BOT = '#140B4A';
+
+const c = dsColor;
+
+const gameImages: Record<string, any> = {
+  'most-likely-to':    require('@/assets/images/games/most-likely-to.png'),
+  'never-have-i-ever': require('@/assets/images/games/never-have-i-ever.png'),
+  'would-you-rather':  require('@/assets/images/games/would-you-rather.png'),
+  'id-game':           require('@/assets/images/games/id-game.png'),
+  'back-to-back':      require('@/assets/images/games/back-to-back.png'),
+  'paranoia':          require('@/assets/images/games/paranoia.png'),
+  'truth-or-drink':    require('@/assets/images/games/truth-or-drink.png'),
+  'hot-seat':          require('@/assets/images/games/hot-seat.png'),
+  'exposed':           require('@/assets/images/games/exposed.png'),
+  '5-seconds':         require('@/assets/images/games/5-seconds.png'),
+  'categories':        require('@/assets/images/games/categories.png'),
+  'receipts':          require('@/assets/images/games/receipts.png'),
+  'bad-decisions':     require('@/assets/images/games/bad-decisions.png'),
+  'red-green-flag':    require('@/assets/images/games/red-green-flag.png'),
+  'drink-if':          require('@/assets/images/games/drink-if.png'),
+  'dare-or-drink':     require('@/assets/images/games/dare-or-drink.png'),
+};
+
+export default function Recommendations() {
+  const router = useRouter();
+  const insets = useSafeAreaInsets();
+  const params = useLocalSearchParams<{ vibe?: string }>();
+  const data = recommendations(params.vibe || 'Pub Pres');
+  const { setVibe, addRecent } = usePres();
+
+  return (
+    <LinearGradient colors={[GRAD_TOP, GRAD_BOT]} style={s.screen}>
+      <ScrollView
+        contentContainerStyle={[s.content, { paddingTop: insets.top + 18, paddingBottom: insets.bottom + 30 }]}
+      >
+        <View style={s.top}>
+          <Pressable onPress={() => router.back()} style={s.round}>
+            <Feather name="arrow-left" size={21} color={c.foreground} />
+          </Pressable>
+          <Text style={s.logo}>PRES</Text>
+          <Pressable onPress={() => router.push('/settings')} style={s.round}>
+            <Feather name="settings" size={20} color={c.foreground} />
+          </Pressable>
+        </View>
+
+        <View style={s.heading}>
+          <View style={s.badge}>
+            <Text style={s.badgeText}>VIBE</Text>
+          </View>
+          <Text style={s.title}>{data.vibe}</Text>
+          <Text style={s.sub}>Games for your pres</Text>
+        </View>
+
+        <Pressable onPress={() => router.push('/vibes')} style={s.change}>
+          <Feather name="shuffle" size={17} color={c.foreground} />
+          <Text style={s.changeText}>Change vibe</Text>
+        </Pressable>
+
+        <View style={s.grid}>
+          {data.games.map((game, i) => (
+            <GameCard
+              key={game.id}
+              game={game}
+              index={i}
+              onPress={() => {
+                setVibe(data.vibe);
+                addRecent(game.id);
+                router.push({ pathname: '/game-settings', params: { id: game.id } });
+              }}
+            />
+          ))}
+        </View>
+      </ScrollView>
+    </LinearGradient>
+  );
+}
+
+function GameCard({ game, index: _index, onPress }: { game: Game; index: number; onPress: () => void }) {
+  return (
+    <Pressable
+      onPress={onPress}
+      style={({ pressed }) => [s.card, pressed && { opacity: 0.78, transform: [{ scale: 0.98 }] }]}
+    >
+      {gameImages[game.id] ? (
+        <Image source={gameImages[game.id]} style={s.stickerImg} resizeMode="contain" />
+      ) : (
+        <View style={[s.sticker, { backgroundColor: game.color }]} />
+      )}
+      <View style={s.copy}>
+        <Text style={[s.tag, { color: game.color }]}>{game.tag}</Text>
+        <Text style={s.gameTitle}>{game.title}</Text>
+        <Text style={s.desc} numberOfLines={2}>{game.short}</Text>
+      </View>
+      <View style={s.meta}>
+        <Text style={s.metaText}>
+          <Feather name="users" size={15} color={c.mutedForeground} /> {game.min}
+        </Text>
+        <Text style={s.metaText}>
+          <Feather name="zap" size={15} color={game.color} /> {game.heat}
+        </Text>
+      </View>
+    </Pressable>
+  );
+}
+
+const s = StyleSheet.create({
+  screen: { flex: 1 },
+  content: { paddingHorizontal: 24 },
+  top: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  round: { width: 48, height: 48, borderRadius: 24, backgroundColor: 'rgba(255,255,255,0.1)', alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: 'rgba(255,255,255,0.16)' },
+  logo: { color: c.foreground, fontWeight: '800', fontSize: 27, letterSpacing: 3 },
+  heading: { marginTop: 38, marginBottom: 4 },
+  badge: { backgroundColor: '#FF4B89', paddingHorizontal: 15, paddingVertical: 7, borderRadius: 99, alignSelf: 'flex-start' },
+  badgeText: { color: '#590026', fontSize: 11, fontWeight: '800', letterSpacing: 1 },
+  title: { color: c.foreground, fontSize: 36, fontWeight: '800', marginTop: 11 },
+  sub: { color: 'rgba(255,255,255,0.65)', fontSize: 17, marginTop: 4 },
+  change: { alignSelf: 'flex-start', marginTop: 22, marginBottom: 26, borderWidth: 2, borderColor: c.foreground, borderRadius: 99, paddingHorizontal: 18, paddingVertical: 11, flexDirection: 'row', gap: 8, alignItems: 'center' },
+  changeText: { color: c.foreground, fontWeight: '800', fontSize: 12 },
+  grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 16 },
+  card: { width: '47.8%', height: 240, borderRadius: 24, backgroundColor: 'rgba(255,255,255,0.1)', borderWidth: 1, borderColor: 'rgba(255,255,255,0.2)', padding: 16, overflow: 'hidden', justifyContent: 'space-between' },
+  sticker: { position: 'absolute', width: 125, height: 125, borderRadius: 70, right: -44, bottom: -30, opacity: 0.25 },
+  stickerImg: { position: 'absolute', width: 110, height: 110, right: -20, bottom: -10, opacity: 0.9, backgroundColor: 'transparent' },
+  copy: { width: '82%' },
+  tag: { fontSize: 10, fontWeight: '800', letterSpacing: 1, marginBottom: 11 },
+  gameTitle: { color: c.foreground, fontSize: 19, fontWeight: '800', lineHeight: 24 },
+  desc: { color: 'rgba(255,255,255,0.65)', fontSize: 12, lineHeight: 17, marginTop: 7 },
+  meta: { flexDirection: 'row', gap: 12, alignItems: 'center' },
+  metaText: { color: 'rgba(255,255,255,0.72)', fontSize: 11, fontWeight: '800' },
+});

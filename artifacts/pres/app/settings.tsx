@@ -4,9 +4,13 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Feather } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import colors from '@/constants/colors';
+import { dsColor } from '@/constants/ds';
 
-const c = colors.light;
+// Art-directed gradient stops — intentionally not part of the token set
+const GRAD_TOP = '#3611D2';
+const GRAD_BOT = '#140B4A';
+
+const c = dsColor;
 
 type MenuItem = { label: string; sub: string; icon: any; route?: string; value?: string };
 
@@ -24,10 +28,10 @@ export default function Settings() {
   const insets = useSafeAreaInsets();
 
   return (
-    <LinearGradient colors={['#3611D2', '#140B4A']} style={s.screen}>
+    <LinearGradient colors={[GRAD_TOP, GRAD_BOT]} style={s.screen}>
       <ScrollView contentContainerStyle={[s.content, { paddingTop: insets.top + 16, paddingBottom: insets.bottom + 30 }]}>
         <Pressable onPress={() => router.back()} style={s.back}>
-          <Feather name="arrow-left" size={20} color={c.text} />
+          <Feather name="arrow-left" size={20} color={c.foreground} />
         </Pressable>
         <Text style={s.title}>Settings</Text>
         <Text style={s.sub}>Make PRES work for your group.</Text>
@@ -63,12 +67,12 @@ const s = StyleSheet.create({
   screen: { flex: 1 },
   content: { paddingHorizontal: 22 },
   back: { width: 44, height: 44, borderRadius: 14, backgroundColor: 'rgba(255,255,255,0.1)', alignItems: 'center', justifyContent: 'center', marginBottom: 28 },
-  title: { color: c.text, fontSize: 38, fontWeight: '800' },
+  title: { color: c.foreground, fontSize: 38, fontWeight: '800' },
   sub: { color: 'rgba(255,255,255,0.65)', fontSize: 15, marginTop: 6, marginBottom: 28 },
   row: { minHeight: 72, borderBottomWidth: 1, borderBottomColor: 'rgba(255,255,255,0.1)', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: 12 },
   rowPressed: { opacity: 0.75 },
   rowLeft: { flexDirection: 'row', alignItems: 'center', gap: 14, flex: 1 },
   rowIcon: { width: 40, height: 40, borderRadius: 12, backgroundColor: 'rgba(255,255,255,0.08)', borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)', alignItems: 'center', justifyContent: 'center' },
-  rowTitle: { color: c.text, fontSize: 16, fontWeight: '700' },
+  rowTitle: { color: c.foreground, fontSize: 16, fontWeight: '700' },
   rowSub: { color: 'rgba(255,255,255,0.5)', fontSize: 12, marginTop: 3 },
 });

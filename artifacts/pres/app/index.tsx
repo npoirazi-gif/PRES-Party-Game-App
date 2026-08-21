@@ -4,9 +4,13 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Feather } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import colors from '@/constants/colors';
+import { dsColor } from '@/constants/ds';
 import { games } from '@/data/games';
 import { usePres } from '@/context/PresContext';
+
+// Art-directed gradient stops — intentionally not part of the token set
+const GRAD_TOP = '#3611D2';
+const GRAD_BOT = '#140B4A';
 
 const gameImages: Record<string, any> = {
   'most-likely-to':    require('@/assets/images/games/most-likely-to.png'),
@@ -27,12 +31,12 @@ const gameImages: Record<string, any> = {
   'dare-or-drink':     require('@/assets/images/games/dare-or-drink.png'),
 };
 
-const c = colors.light;
+const c = dsColor;
 
 function IconButton({ name, onPress }: { name: any; onPress: () => void }) {
   return (
     <Pressable onPress={onPress} style={({ pressed }) => [s.icon, pressed && s.pressed]}>
-      <Feather name={name} size={23} color={c.text} />
+      <Feather name={name} size={23} color={c.foreground} />
     </Pressable>
   );
 }
@@ -43,7 +47,7 @@ export default function Home() {
   const { addRecent } = usePres();
 
   return (
-    <LinearGradient colors={['#3611D2', '#140B4A']} style={s.screen}>
+    <LinearGradient colors={[GRAD_TOP, GRAD_BOT]} style={s.screen}>
       <View style={[s.inner, { paddingTop: insets.top + 80, paddingBottom: insets.bottom + 28 }]}>
 
         {/* Top utility bar */}
@@ -106,7 +110,7 @@ const s = StyleSheet.create({
   left: { flexDirection: 'row', alignItems: 'center', gap: 10 },
   icon: { width: 48, height: 48, borderRadius: 14, backgroundColor: 'rgba(255,255,255,0.1)', alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: 'rgba(255,255,255,0.08)' },
   premium: { height: 48, paddingHorizontal: 18, borderRadius: 14, borderWidth: 2, borderColor: c.accent, backgroundColor: 'rgba(20,11,74,0.45)', justifyContent: 'center' },
-  premiumText: { color: c.text, fontWeight: '800', fontSize: 16 },
+  premiumText: { color: c.foreground, fontWeight: '800', fontSize: 16 },
   pressed: { opacity: 0.78 },
   logoPressed: { transform: [{ scale: 0.96 }], opacity: 0.8 },
   entry: { flex: 1, alignItems: 'center', justifyContent: 'center' },
@@ -114,9 +118,9 @@ const s = StyleSheet.create({
   tap: { color: 'rgba(255,255,255,0.58)', fontSize: 13, fontWeight: '800', letterSpacing: 2, marginTop: 8 },
   pickSection: { paddingTop: 8 },
   pickHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 },
-  sectionKicker: { color: c.text, fontSize: 16, fontWeight: '800', letterSpacing: 1.7 },
+  sectionKicker: { color: c.foreground, fontSize: 16, fontWeight: '800', letterSpacing: 1.7 },
   seeAll: { backgroundColor: 'rgba(255,255,255,0.12)', borderRadius: 99, paddingHorizontal: 12, paddingVertical: 5 },
-  seeAllText: { color: c.text, fontSize: 11, fontWeight: '800', letterSpacing: 1 },
+  seeAllText: { color: c.foreground, fontSize: 11, fontWeight: '800', letterSpacing: 1 },
   gameScroll: { gap: 12, paddingBottom: 4 },
   gameCard: { width: 124, alignItems: 'center' },
   gameSticker: { width: 124, height: 124, borderRadius: 20, backgroundColor: '#FFFFFF', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', marginBottom: 8 },
