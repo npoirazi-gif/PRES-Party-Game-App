@@ -30,6 +30,8 @@ function RootLayoutNav() {
       <Stack.Screen name="game/[id]" />
       <Stack.Screen name="settings" />
       <Stack.Screen name="premium" />
+      <Stack.Screen name="game-settings" />
+      <Stack.Screen name="themes" />
     </Stack>
   );
 }

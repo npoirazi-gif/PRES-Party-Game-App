@@ -1,0 +1,687 @@
+<!-- Game Settings - Updated Stickers & Alignment -->
+<!DOCTYPE html><html lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Game Settings - PRES App</title>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'pres-bg-start': '#0a031d',
+            'pres-bg-end': '#1a0b3b',
+            'pres-card': '#22104d',
+            'pres-card-hover': '#2d1666',
+            'pres-accent': '#5c24ff',
+            'pres-accent-hover': '#7344ff',
+            'pres-text': '#ffffff',
+            'pres-text-muted': '#a39ab6',
+            'pres-toggle-bg': '#331a70',
+            'pres-toggle-checked': '#5c24ff',
+          },
+          fontFamily: {
+            sans: ['"Bricolage Grotesque"', 'sans-serif'],
+          },
+          backgroundImage: {
+            'indigo-radial': 'radial-gradient(circle at top right, var(--tw-gradient-stops))',
+            'card-glass': 'linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%)',
+          }
+        }
+      }
+    }
+  </script>
+<style data-purpose="custom-toggles">
+    /* Custom styles for toggles */
+    .toggle-checkbox:checked {
+      right: 0;
+      border-color: #5c24ff;
+    }
+    .toggle-checkbox:checked + .toggle-label {
+      background-color: #5c24ff;
+      box-shadow: 0 0 15px rgba(92, 36, 255, 0.5);
+    }
+    .toggle-checkbox:checked + .toggle-label:after {
+      transform: translateX(100%);
+      border-color: white;
+    }
+    .toggle-label {
+      width: 3.5rem;
+      height: 1.75rem;
+      background-color: #331a70;
+      border-radius: 9999px;
+      position: relative;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+    }
+    .toggle-label:after {
+      content: '';
+      position: absolute;
+      top: 0.125rem;
+      left: 0.125rem;
+      width: 1.5rem;
+      height: 1.5rem;
+      background-color: white;
+      border-radius: 50%;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    
+    /* Modern Slider */
+    input[type=range] {
+      -webkit-appearance: none;
+      width: 100%;
+      background: transparent;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      height: 24px;
+      width: 24px;
+      border-radius: 50%;
+      background: #ffffff;
+      cursor: pointer;
+      margin-top: -10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3), 0 0 10px rgba(92,36,255,0.5);
+      border: 4px solid #5c24ff;
+    }
+    input[type=range]::-webkit-slider-runnable-track {
+      width: 100%;
+      height: 6px;
+      cursor: pointer;
+      background: #331a70;
+      border-radius: 9999px;
+    }
+    input[type=range]:focus {
+      outline: none;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-pres-bg-start to-pres-bg-end text-pres-text font-sans antialiased min-h-screen flex flex-col pt-12 pb-32 px-5 sm:max-w-md mx-auto selection:bg-pres-accent selection:text-white">
+<!-- BEGIN: Header -->
+<header class="flex justify-between items-center mb-8 relative z-10">
+<button aria-label="Go back" class="w-12 h-12 bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl flex items-center justify-center text-pres-text hover:bg-white/10 transition-colors">
+<svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M15 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path>
+</svg>
+</button>
+<h1 class="text-2xl font-bold tracking-tight">Settings</h1>
+<button aria-label="Translate" class="w-12 h-12 bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl flex items-center justify-center text-pres-text hover:bg-white/10 transition-colors">
+<svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+</header>
+<!-- END: Header -->
+<main class="flex-1 space-y-10 relative z-10">
+<!-- BEGIN: Pick Your Questions Section -->
+<section>
+<h2 class="text-2xl font-extrabold mb-5 tracking-tight flex items-center gap-2">
+<span class="w-1.5 h-6 bg-pres-accent rounded-full inline-block"></span>
+        Pick your questions
+      </h2>
+<div class="grid grid-cols-2 gap-4">
+<!-- Option: Most Likely -->
+<div class="relative bg-card-glass bg-pres-card rounded-3xl p-5 border border-white/10 flex flex-col shadow-xl hover:bg-pres-card-hover transition-colors overflow-hidden group col-span-2 sm:col-span-1 items-start text-left">
+<div class="absolute top-4 right-4 z-20">
+<div class="relative inline-block w-14 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-7 h-7 rounded-full bg-white border-4 appearance-none cursor-pointer opacity-0 z-10" id="toggle-most-likely" name="toggle" type="checkbox">
+<label class="toggle-label block overflow-hidden h-7 rounded-full cursor-pointer" for="toggle-most-likely"></label>
+</div>
+</div>
+<div>
+<h3 class="font-bold text-lg mb-1 leading-tight">Most Likely</h3>
+<p class="text-pres-text-muted text-xs font-medium">Expose your friends.</p>
+</div>
+</div>
+<!-- Option: Name 3 Things -->
+<div class="relative bg-card-glass bg-pres-card rounded-3xl p-5 border border-white/10 flex flex-col justify-end shadow-xl hover:bg-pres-card-hover transition-colors overflow-hidden group col-span-2 sm:col-span-1 transform sm:translate-y-6 items-start text-left">
+<div class="absolute top-4 right-4 z-20">
+<div class="relative inline-block w-14 align-middle select-none transition duration-200 ease-in">
+<input class="toggle-checkbox absolute block w-7 h-7 rounded-full bg-white border-4 appearance-none cursor-pointer opacity-0 z-10" id="toggle-name-3" name="toggle" type="checkbox">
+<label class="toggle-label block overflow-hidden h-7 rounded-full cursor-pointer" for="toggle-name-3"></label>
+</div>
+</div>
+<div>
+<h3 class="font-bold text-lg mb-1 leading-tight">Name 3 Things</h3>
+<p class="text-pres-text-muted text-xs font-medium">Think fast, name them.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- END: Pick Your Questions Section -->
+<!-- BEGIN: Loser's Fate Section -->
+<section>
+<h2 class="text-2xl font-extrabold mb-5 tracking-tight flex items-center gap-2 mt-4 sm:mt-8">
+<span class="w-1.5 h-6 bg-[#ff3366] rounded-full inline-block shadow-[0_0_10px_rgba(255,51,102,0.8)]"></span>
+        Loser's fate
+      </h2>
+<div class="grid grid-cols-1 gap-4">
+<!-- Option: Punishments -->
+<div class="relative bg-card-glass bg-pres-card rounded-3xl p-5 border border-white/10 flex items-center gap-5 shadow-xl overflow-hidden group">
+<div class="w-24 h-24 flex-shrink-0 flex items-center justify-center transform group-hover:rotate-[-5deg] group-hover:scale-105 transition-all duration-300 relative z-10 bg-pres-card">
+<img alt="Punishments" class="w-full h-full object-contain drop-shadow-2xl" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQPxSDo9T78e28av4LHT07SPRbQXC9MRmreQ3jqFrVK5yNPatPPVk9-A7GI1bOh637n_zOq5vvRnOReMy757uGzIdmuOf_kDY2kW_wqZuaq_6usT_DhtC7jjw0g_1XQf0jORV78r_U8wBv2txw7bvtfshsc5ftLRXBtaHG2qpB_8rTFp-GMGSULKLrZqPu4EmXJFAIcmRdkuWR-WfXqiHeJjJYGkD-kYeXbYThuzoMQt1j_GPGZsSD">
+</div>
+<div class="flex-1 flex flex-col justify-center py-1">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h3 class="font-bold text-xl leading-none mb-1.5">Punishments</h3>
+<p class="text-pres-text-muted text-sm font-medium">Pick your own penalty.</p>
+</div>
+<div class="relative inline-block w-14 align-middle select-none transition duration-200 ease-in flex-shrink-0">
+<input checked="" class="toggle-checkbox absolute block w-7 h-7 rounded-full bg-white border-4 appearance-none cursor-pointer opacity-0 z-10" id="toggle-punishments" name="toggle" type="checkbox">
+<label class="toggle-label block overflow-hidden h-7 rounded-full cursor-pointer" for="toggle-punishments"></label>
+</div>
+</div>
+<button class="self-start mt-2 bg-white/5 border border-white/10 px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 hover:bg-white/10 hover:border-white/20 transition-all text-white">
+<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+              Edit punishment
+            </button>
+</div>
+</div>
+<!-- Option: Truth or dare -->
+<div class="relative bg-card-glass bg-pres-card rounded-3xl p-5 border border-white/10 flex items-center gap-5 shadow-xl overflow-hidden group">
+<div class="w-24 h-24 flex-shrink-0 flex items-center justify-center transform group-hover:rotate-[5deg] group-hover:scale-105 transition-all duration-300 relative z-10 bg-transparent">
+<img alt="Truth or Dare" class="w-full h-full object-contain drop-shadow-2xl" src="https://lh3.googleusercontent.com/aida/AEtjO1XCNNY_FYYrDURgi7qIHtcwPVqEgBiD8h6e2f6ZkqPvUcojaiwzgg6V1PPqdHE2SO1hvwrwbBkGRqdqVbis9Phn8b1yXbe1JTNnevF4A0JclHTYrjl3bdEwujEbDyM2x_MaW8bWugYZmW-Efbdb8T1AhDIvwDihkZ0Zn2tp20Z7-ATW_pCy5KgYe3xpR9oVK7140PDgafHPPk_4I0vboUGXgTDmql9eSycpabgxQ9yx8jd8UyNKUyfHGA">
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-center">
+<div class="pr-3">
+<h3 class="font-bold text-xl leading-none mb-1.5">Truth or dare</h3>
+<p class="text-pres-text-muted text-sm font-medium leading-snug">Challenges that match the theme.</p>
+</div>
+<div class="relative inline-block w-14 align-middle select-none transition duration-200 ease-in flex-shrink-0">
+<input checked="" class="toggle-checkbox absolute block w-7 h-7 rounded-full bg-white border-4 appearance-none cursor-pointer opacity-0 z-10" id="toggle-truth-dare" name="toggle" type="checkbox">
+<label class="toggle-label block overflow-hidden h-7 rounded-full cursor-pointer" for="toggle-truth-dare"></label>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- END: Loser's Fate Section -->
+<!-- BEGIN: Round Length Section -->
+<section class="bg-card-glass bg-pres-card rounded-3xl p-6 border border-white/10 shadow-xl relative overflow-hidden">
+<!-- Decorative background element -->
+<div class="absolute -right-6 -bottom-6 w-32 h-32 bg-blue-500/20 rounded-full blur-3xl pointer-events-none"></div>
+<div class="flex items-start justify-between mb-6 relative z-10">
+<div>
+<h2 class="text-xl font-bold mb-1 flex items-center gap-2">
+            Round Length
+          </h2>
+<p class="text-pres-text-muted text-sm font-medium">Bomb time: Pass it before it blows</p>
+</div>
+<div class="w-16 h-16 flex-shrink-0 flex items-center justify-center relative z-10">
+  
+</div>
+</div>
+<div class="relative z-10 px-2 mt-4">
+<div class="flex justify-between text-xs font-bold text-pres-text-muted mb-3 px-1 uppercase tracking-wider">
+<span class="">Short</span>
+<span class="text-white bg-pres-accent/20 border border-pres-accent/50 px-2 py-0.5 rounded-md">40-60s</span>
+<span class="">Long</span>
+</div>
+<input class="w-full" max="100" min="1" type="range" value="50">
+</div>
+</section>
+<!-- END: Round Length Section -->
+<!-- BEGIN: Advanced Settings Section -->
+<section>
+<h2 class="text-xl font-bold mb-4 tracking-tight">Advanced Settings</h2>
+<div class="bg-card-glass bg-pres-card rounded-3xl p-2 border border-white/10 shadow-xl flex flex-col gap-1">
+<!-- Option: Flashing Light -->
+<div class="flex items-center justify-between p-4 rounded-2xl hover:bg-white/5 transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-pres-text-muted">
+<svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M13 10V3L4 14h7v7l9-11h-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<h3 class="font-bold text-lg">Flashing Light</h3>
+</div>
+<div class="relative inline-block w-14 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-7 h-7 rounded-full bg-white border-4 appearance-none cursor-pointer opacity-0 z-10" id="toggle-flashing" name="toggle" type="checkbox">
+<label class="toggle-label block overflow-hidden h-7 rounded-full cursor-pointer" for="toggle-flashing"></label>
+</div>
+</div>
+<div class="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent w-full"></div>
+<!-- Option: Sound Effects -->
+<div class="flex items-center justify-between p-4 rounded-2xl hover:bg-white/5 transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-pres-text-muted">
+<svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<h3 class="font-bold text-lg">Sound Effects</h3>
+</div>
+<div class="relative inline-block w-14 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-7 h-7 rounded-full bg-white border-4 appearance-none cursor-pointer opacity-0 z-10" id="toggle-sound" name="toggle" type="checkbox">
+<label class="toggle-label block overflow-hidden h-7 rounded-full cursor-pointer" for="toggle-sound"></label>
+</div>
+</div>
+</div>
+</section>
+<!-- END: Advanced Settings Section -->
+</main>
+<!-- BEGIN: Bottom Action Area -->
+<div class="fixed bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-[#0a031d] via-[#0a031d]/90 to-transparent sm:max-w-md mx-auto z-50 pb-8">
+<button class="w-full bg-pres-accent hover:bg-pres-accent-hover text-white text-xl font-extrabold py-4 rounded-2xl transition-all shadow-[0_0_20px_rgba(92,36,255,0.4)] hover:shadow-[0_0_30px_rgba(92,36,255,0.6)] hover:-translate-y-1 active:translate-y-0 tracking-wide uppercase">
+      Continue
+    </button>
+</div>
+<!-- END: Bottom Action Area -->
+
+
+</body></html>
+
+<!-- PRES - Integrated Navigation Flow -->
+<!DOCTYPE html><html lang="en" style=""><head><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Game Selection Screen</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              darkest: '#140b4a',
+              dark: '#2c1496',
+              main: '#3611d2',
+              light: '#5328fc',
+            },
+            accent: {
+              orange: '#ff6b4a',
+            }
+          },
+          fontFamily: {
+            sans: ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Open Sans', 'Helvetica Neue', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+<style data-purpose="custom-styles">
+    body {
+      background: linear-gradient(180deg, #3611d2 0%, #140b4a 100%);
+      min-height: 100vh;
+      color: white;
+      font-family: 'system-ui', sans-serif;
+    }
+
+    /* Custom shadow for top buttons */
+    .icon-btn-shadow {
+      box-shadow: 0 4px 14px 0 rgba(0, 0, 0, 0.25);
+    }
+
+    /* Card styling */
+    .game-card {
+      background: linear-gradient(180deg, #2c1496 0%, #140b4a 100%);
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    /* Horizontal scroll snap */
+    .snap-x-mandatory {
+      scroll-snap-type: x mandatory;
+    }
+    .snap-center {
+      scroll-snap-align: center;
+    }
+    
+    /* Hide scrollbar for cleaner look */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    
+    /* Page Transition */
+    .page-transition {
+      transition: all 0.4s ease-in-out;
+    }
+  </style>
+</head>
+<body class="antialiased overflow-hidden flex flex-col pt-12 pb-8 px-4 relative">
+<!-- BEGIN: Top Navigation Bar -->
+<header class="flex justify-between items-center w-full z-10 mb-6" data-purpose="top-navigation">
+<div class="flex items-center gap-3">
+<!-- Translate Icon Button -->
+<button aria-label="Language translation" class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-sm icon-btn-shadow hover:bg-white/20 transition-colors">
+<svg class="text-white" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="m5 8 6 6"></path>
+<path d="m4 14 6-6 2-3"></path>
+<path d="M2 5h12"></path>
+<path d="M7 2h1"></path>
+<path d="m22 22-5-10-5 10"></path>
+<path d="M14 18h6"></path>
+</svg>
+</button>
+<!-- Premium Button -->
+<button aria-label="Go Premium" class="h-12 px-5 bg-brand-darkest/50 rounded-xl border-2 border-accent-orange flex items-center justify-center font-bold text-lg hover:bg-brand-darkest/70 transition-colors">
+        Premium
+      </button>
+</div>
+<div class="flex items-center gap-3">
+<!-- QR Code Icon Button -->
+<button aria-label="Scan QR Code" class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-sm icon-btn-shadow hover:bg-white/20 transition-colors">
+<svg class="text-white" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+<rect height="5" rx="1" width="5" x="3" y="3"></rect>
+<rect height="5" rx="1" width="5" x="16" y="3"></rect>
+<rect height="5" rx="1" width="5" x="3" y="16"></rect>
+<path d="M21 16h-3a2 2 0 0 0-2 2v3"></path>
+<path d="M21 21v.01"></path>
+<path d="M12 7v3a2 2 0 0 1-2 2H7"></path>
+<path d="M3 12h.01"></path>
+<path d="M12 3h.01"></path>
+<path d="M12 16v.01"></path>
+<path d="M16 12h1"></path>
+<path d="M21 12v.01"></path>
+<path d="M12 21v-1"></path>
+</svg>
+</button>
+<!-- Settings Icon Button -->
+<button aria-label="Settings" class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-sm icon-btn-shadow hover:bg-white/20 transition-colors">
+<svg class="text-white" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path>
+<circle cx="12" cy="12" r="3"></circle>
+</svg>
+</button>
+</div>
+</header>
+<!-- END: Top Navigation Bar -->
+<!-- BEGIN: Main Content Area -->
+<main class="flex-1 flex flex-col pb-10" data-purpose="game-selection">
+<div class="flex-1 flex flex-col items-center justify-center"><button class="hover:scale-105 transition-transform cursor-pointer" onclick="navigateToLibrary(event, '{{DATA:SCREEN:SCREEN_40}}')"><img alt="PRES Logo" class="h-64 w-auto object-contain mb-8" src="https://lh3.googleusercontent.com/aida/AEtjO1UWpu3nlHt-oiwPBTLzkCt7X2ceR7NlvxEDob5n6Uskrjkjn96gpguk3dpGivrjYeWkE_ssqtjcJgn3FWQ21Eq67PORqDKb7OZ0bw317ZOj0ukQBLEyYFoMTCiPsx7afk9pyPe41WG99iGBMPguNGeJYi_aVR4rOBRTXRvQQwCxqsJM8RgWUqedtSRcxXtBj1d32brbzYg630e9BaSI-uoPAYD_JYjI5hcB6yvXcncgx3_iTo3b6-iUsW4"></button><p class="text-white/60 font-bold tracking-widest uppercase text-sm">Tap to Enter Library</p></div>
+<!-- Horizontal Scroll Container for Cards -->
+<section class="mt-auto px-4 page-transition" id="pick-game-section">
+<div class="flex justify-between items-center mb-4">
+<h2 class="text-white font-bold tracking-widest uppercase text-sm">Pick a Game</h2>
+</div>
+<div class="flex gap-4 overflow-x-auto no-scrollbar pb-6 snap-x-mandatory">
+<!-- Game Card 1 -->
+<div class="flex-shrink-0 w-32 h-40 game-card rounded-xl overflow-hidden snap-center flex flex-col items-center justify-center p-2 cursor-pointer hover:scale-105 transition-transform" onclick="navigateToLibrary(event, '{{DATA:SCREEN:SCREEN_40}}')">
+<div class="w-16 h-16 bg-white/10 rounded-full mb-2 flex items-center justify-center">
+<span class="material-symbols-outlined text-accent-orange">casino</span>
+</div>
+<span class="text-xs font-bold text-center">Slots</span>
+</div>
+<!-- Game Card 2 -->
+<div class="flex-shrink-0 w-32 h-40 game-card rounded-xl overflow-hidden snap-center flex flex-col items-center justify-center p-2 cursor-pointer hover:scale-105 transition-transform" onclick="navigateToLibrary(event, '{{DATA:SCREEN:SCREEN_40}}')">
+<div class="w-16 h-16 bg-white/10 rounded-full mb-2 flex items-center justify-center">
+<span class="material-symbols-outlined text-accent-orange">style</span>
+</div>
+<span class="text-xs font-bold text-center">Poker</span>
+</div>
+<!-- Game Card 3 -->
+<div class="flex-shrink-0 w-32 h-40 game-card rounded-xl overflow-hidden snap-center flex flex-col items-center justify-center p-2 cursor-pointer hover:scale-105 transition-transform" onclick="navigateToLibrary(event, '{{DATA:SCREEN:SCREEN_40}}')">
+<div class="w-16 h-16 bg-white/10 rounded-full mb-2 flex items-center justify-center">
+<span class="material-symbols-outlined text-accent-orange">sports_esports</span>
+</div>
+<span class="text-xs font-bold text-center">Arcade</span>
+</div>
+<!-- Game Card 4 -->
+<div class="flex-shrink-0 w-32 h-40 game-card rounded-xl overflow-hidden snap-center flex flex-col items-center justify-center p-2 cursor-pointer hover:scale-105 transition-transform" onclick="navigateToLibrary(event, '{{DATA:SCREEN:SCREEN_40}}')">
+<div class="w-16 h-16 bg-white/10 rounded-full mb-2 flex items-center justify-center">
+<span class="material-symbols-outlined text-accent-orange">grid_view</span>
+</div>
+<span class="text-xs font-bold text-center">Bingo</span>
+</div>
+</div>
+<button class="w-full py-4 bg-white/10 rounded-xl border border-white/20 font-bold text-sm uppercase tracking-widest hover:bg-white/20 transition-colors" onclick="navigateToLibrary(event, '{{DATA:SCREEN:SCREEN_40}}')">
+    See All Games
+  </button>
+</section></main>
+<!-- END: Main Content Area -->
+<script>
+  function navigateToLibrary(event, url) {
+    if (event) event.preventDefault();
+    const section = document.getElementById('pick-game-section');
+    if (section) {
+      section.style.transform = 'scale(1.1) translateY(-5vh)';
+      section.style.opacity = '0';
+    }
+    document.body.style.transition = 'opacity 0.4s ease-in-out';
+    
+    setTimeout(() => {
+      document.body.style.opacity = '0';
+    }, 50);
+    
+    setTimeout(() => {
+      window.location.href = url;
+    }, 450);
+  }
+</script>
+</body></html>
+
+<!-- Pick Your Themes - Immersive Layout -->
+<!DOCTYPE html><html lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Pick Your Themes</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&amp;display=swap" rel="stylesheet">
+<style data-purpose="custom-styles">
+    body {
+      background: linear-gradient(180deg, #180353 0%, #0c0022 100%);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: white;
+    }
+    
+    .font-bricolage {
+      font-family: 'Bricolage Grotesque', sans-serif;
+    }
+
+    .hide-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .hide-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    
+    /* Custom Toggle Switch Styles */
+    .toggle-checkbox:checked + .toggle-label {
+      background-color: rgba(255, 255, 255, 0.9);
+    }
+    
+    .toggle-label {
+      width: 52px;
+      height: 32px;
+      background-color: rgba(0, 0, 0, 0.2);
+      border-radius: 9999px;
+      position: relative;
+      cursor: pointer;
+      display: inline-block;
+      transition: background-color 0.3s ease;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .toggle-inner {
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 28px;
+      height: 28px;
+      background-color: white;
+      border-radius: 50%;
+      transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .toggle-checkbox:checked + .toggle-label .toggle-inner {
+      transform: translateX(20px);
+    }
+
+    /* Specific theme toggle colors for the dot when active */
+    .toggle-crazy:checked + .toggle-label .toggle-inner { background-color: #0d9488; }
+    .toggle-flirty:checked + .toggle-label .toggle-inner { background-color: #d97706; }
+    .toggle-sexy:checked + .toggle-label .toggle-inner { background-color: #e11d48; }
+    .toggle-edgy:checked + .toggle-label .toggle-inner { background-color: #4f46e5; }
+    
+    .btn-play {
+      background: linear-gradient(135deg, #4f46e5 0%, #3b07f8 100%);
+      transition: transform 0.2s;
+    }
+    .btn-play:active {
+      transform: scale(0.98);
+    }
+  </style>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="min-h-screen pb-32 relative overflow-x-hidden flex flex-col">
+<!-- BEGIN: Header Section -->
+<header class="px-6 pt-12 pb-2 flex justify-between items-center" data-purpose="top-navigation">
+<button aria-label="Go Back" class="w-10 h-10 bg-[#1e133d] rounded-xl flex items-center justify-center border border-white/10 shadow-lg">
+<i class="fa-solid fa-chevron-left text-white text-lg"></i>
+</button>
+
+</header>
+<!-- END: Header Section -->
+<!-- BEGIN: Main Content -->
+<main class="flex-1 flex flex-col">
+<div class="px-6 mt-4 mb-2">
+<h1 class="text-4xl font-bricolage font-black tracking-tight">Pick your themes</h1>
+</div>
+<!-- Immersive Carousel -->
+<div class="flex overflow-x-auto snap-x snap-mandatory gap-5 px-6 pt-4 pb-8 hide-scrollbar flex-1 items-center">
+<!-- Casual Theme -->
+<section class="w-[82vw] max-w-[320px] h-[65vh] max-h-[500px] min-h-[420px] shrink-0 snap-center rounded-[32px] bg-gradient-to-br from-green-400 to-emerald-600 relative overflow-hidden flex flex-col justify-between p-6 shadow-xl shadow-emerald-900/40 border border-white/10" data-purpose="theme-option-casual">
+<div class="absolute -top-6 -right-12 w-[110%] h-auto z-0 opacity-90 mix-blend-luminosity pointer-events-none">
+<img alt="Truth or Drink" class="w-full h-full object-contain rotate-12 blur-[4px]" src="https://lh3.googleusercontent.com/aida/AEtjO1XoQLzMwkTrAToINUPGeYkkJ8EAwIP8uXMopPF4IKyLNCqoa5CTcE8y6XbPziZEUt5p9RPN2Q2vDkQBKBRbJipW4cR4PJdtnu3BpuzrdNRXhfdLBZeSMVs3z_Px53rP7Ibuz8wPUnu2ax8t5fpEvF-GlRp2EiLDSw4sGsV9KYvSFzj_Ic-ZhqvrA2ItV-7n_95_tPdCY7G9bVYaNY0H9J9G2hx43uMLf3gbK7Ttm7dV0cUWEgKKHlgEAw">
+</div>
+<div class="absolute top-4 -right-4 w-64 h-64 z-10 pointer-events-none">
+<img alt="Truth or Drink Sticker" class="w-full h-full object-contain -rotate-6 drop-shadow-2xl" src="https://lh3.googleusercontent.com/aida/AEtjO1XoQLzMwkTrAToINUPGeYkkJ8EAwIP8uXMopPF4IKyLNCqoa5CTcE8y6XbPziZEUt5p9RPN2Q2vDkQBKBRbJipW4cR4PJdtnu3BpuzrdNRXhfdLBZeSMVs3z_Px53rP7Ibuz8wPUnu2ax8t5fpEvF-GlRp2EiLDSw4sGsV9KYvSFzj_Ic-ZhqvrA2ItV-7n_95_tPdCY7G9bVYaNY0H9J9G2hx43uMLf3gbK7Ttm7dV0cUWEgKKHlgEAw">
+</div>
+<div class="z-20 mt-auto relative">
+<h2 class="font-bricolage text-[4.5rem] font-black text-white/95 leading-[0.85] -ml-1 mb-6 uppercase tracking-tighter">CASUAL</h2>
+<div class="flex items-end justify-between gap-4 bg-black/20 p-4 rounded-2xl backdrop-blur-sm">
+<p class="text-white/90 text-sm font-medium leading-snug">
+          1200+ questions for any occasion. It's <span class="font-bold text-white">always on</span>.
+        </p>
+<div class="shrink-0 flex items-center justify-center w-12 h-8 bg-white/30 rounded-full">
+<i class="fa-solid fa-lock text-white/70 text-sm"></i>
+</div>
+</div>
+</div>
+</section>
+<!-- Crazy Theme -->
+<section class="w-[82vw] max-w-[320px] h-[65vh] max-h-[500px] min-h-[420px] shrink-0 snap-center rounded-[32px] bg-gradient-to-br from-teal-400 to-cyan-600 relative overflow-hidden flex flex-col justify-between p-6 shadow-xl shadow-cyan-900/40 border border-white/10" data-purpose="theme-option-crazy">
+<div class="absolute -top-6 -right-12 w-[110%] h-auto z-0 opacity-80 mix-blend-color-burn pointer-events-none">
+<img alt="Crazy Theme BG" class="w-full h-full object-contain rotate-12 blur-[4px]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuArZKMmZ1S41TDCen-hhD5set2XVRR8i6qm5s_Nz_D-xv4zuX3JTNxoxEjY59wWtw5pjb08les61fOTKxudNhX85ZHniJgVUN1YvrRmRd7G4TO8tayPCDP2d-1u_7oEx3aUoSVFwvfjDXc9M8ksOXdVfTsqVh1jOffgN7W5DgeXeimH5ug-PeKI-z_73bnNN8niWlh7MlowSEDUtQTuWIDZcJGRi3BF8VzGoXbarvBs9bvTq0Teen_v">
+</div>
+<div class="absolute top-4 -right-4 w-64 h-64 z-10 pointer-events-none">
+<img alt="Crazy Theme Sticker" class="w-full h-full object-contain rotate-6 drop-shadow-2xl scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuArZKMmZ1S41TDCen-hhD5set2XVRR8i6qm5s_Nz_D-xv4zuX3JTNxoxEjY59wWtw5pjb08les61fOTKxudNhX85ZHniJgVUN1YvrRmRd7G4TO8tayPCDP2d-1u_7oEx3aUoSVFwvfjDXc9M8ksOXdVfTsqVh1jOffgN7W5DgeXeimH5ug-PeKI-z_73bnNN8niWlh7MlowSEDUtQTuWIDZcJGRi3BF8VzGoXbarvBs9bvTq0Teen_v">
+</div>
+<div class="z-20 mt-auto relative">
+<h2 class="font-bricolage text-[4.5rem] font-black text-white/95 leading-[0.85] -ml-1 mb-6 uppercase tracking-tighter">CRAZY</h2>
+<div class="flex items-center justify-between gap-4 bg-black/20 p-4 rounded-2xl backdrop-blur-sm">
+<p class="text-white/90 text-sm font-medium leading-snug">
+          A deck of questions that'll twist your mind!
+        </p>
+<div class="shrink-0 ml-2">
+<input checked="" class="hidden toggle-checkbox toggle-crazy" id="toggle-crazy" type="checkbox">
+<label class="toggle-label" for="toggle-crazy">
+<span class="toggle-inner"></span>
+</label>
+</div>
+</div>
+</div>
+</section>
+<!-- Flirty Theme -->
+<section class="w-[82vw] max-w-[320px] h-[65vh] max-h-[500px] min-h-[420px] shrink-0 snap-center rounded-[32px] bg-gradient-to-br from-amber-400 to-orange-500 relative overflow-hidden flex flex-col justify-between p-6 shadow-xl shadow-orange-900/40 border border-white/10" data-purpose="theme-option-flirty">
+<div class="absolute -top-6 -right-12 w-[110%] h-auto z-0 opacity-80 mix-blend-color-burn pointer-events-none">
+<img alt="Flirty Theme BG" class="w-full h-full object-contain rotate-12 blur-[4px]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjrlMqG7vrdRLkVZapZcRY8dCxQDlsWIcJn_X95FvyNa_BxYBVbfIwjj7aiCrYjVHM4yPUUfHk85pv8_sgMTOKbBwF1WlucIRnM2FnQuatbS5_3GHUqCgn034d8w6VEMbaEZPGplu5Khtc-HQQLW6QGtpF9J9o6V7Flts8ziaLokdaPC84w79Dets5TmIbpVzFB8hqsi6L7jUcmA4xtpmd-B_hyReVzr4jQFHOz-Lv9yuoGB9-D4_I">
+</div>
+<div class="absolute top-4 -right-4 w-64 h-64 z-10 pointer-events-none">
+<img alt="Flirty Theme Sticker" class="w-full h-full object-contain -rotate-12 drop-shadow-2xl scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjrlMqG7vrdRLkVZapZcRY8dCxQDlsWIcJn_X95FvyNa_BxYBVbfIwjj7aiCrYjVHM4yPUUfHk85pv8_sgMTOKbBwF1WlucIRnM2FnQuatbS5_3GHUqCgn034d8w6VEMbaEZPGplu5Khtc-HQQLW6QGtpF9J9o6V7Flts8ziaLokdaPC84w79Dets5TmIbpVzFB8hqsi6L7jUcmA4xtpmd-B_hyReVzr4jQFHOz-Lv9yuoGB9-D4_I">
+</div>
+<div class="z-20 mt-auto relative">
+<h2 class="font-bricolage text-[4.5rem] font-black text-white/95 leading-[0.85] -ml-1 mb-6 uppercase tracking-tighter">FLIRTY</h2>
+<div class="flex items-center justify-between gap-4 bg-black/20 p-4 rounded-2xl backdrop-blur-sm">
+<p class="text-white/90 text-sm font-medium leading-snug">
+          Let's turn up the cheeky charm!
+        </p>
+<div class="shrink-0 ml-2">
+<input checked="" class="hidden toggle-checkbox toggle-flirty" id="toggle-flirty" type="checkbox">
+<label class="toggle-label" for="toggle-flirty">
+<span class="toggle-inner"></span>
+</label>
+</div>
+</div>
+</div>
+</section>
+<!-- Sexy Theme -->
+<section class="w-[82vw] max-w-[320px] h-[65vh] max-h-[500px] min-h-[420px] shrink-0 snap-center rounded-[32px] bg-gradient-to-br from-rose-500 to-red-600 relative overflow-hidden flex flex-col justify-between p-6 shadow-xl shadow-red-900/40 border border-white/10" data-purpose="theme-option-sexy">
+<div class="absolute -top-6 -right-12 w-[110%] h-auto z-0 opacity-80 mix-blend-color-burn pointer-events-none">
+<img alt="Sexy Theme BG" class="w-full h-full object-contain rotate-12 blur-[4px]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnAWEIoWB-JsQhnJadGbuAhncxwXmkn2YslypzQWqu6wdISSgd_mBeukej4K6fQxE-6pjieOnHO3JPan9-eUy0qIEqDHPUyZq471dNAxJhUCltvst5wazT2F_udKrMmurJUIbOl5VwYeQ9bgsoA0XD6BU20NIzfZ_SbsZzXUMbitQliN31FbI8UQbOaHSQ7gJbuTQ-fxxQsUUMFOmJjjM7OUmO8_if8aThivvJj27ouxxRtAzDXvaK">
+</div>
+<div class="absolute top-4 -right-4 w-64 h-64 z-10 pointer-events-none">
+<img alt="Sexy Theme Sticker" class="w-full h-full object-contain rotate-12 drop-shadow-2xl scale-125" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnAWEIoWB-JsQhnJadGbuAhncxwXmkn2YslypzQWqu6wdISSgd_mBeukej4K6fQxE-6pjieOnHO3JPan9-eUy0qIEqDHPUyZq471dNAxJhUCltvst5wazT2F_udKrMmurJUIbOl5VwYeQ9bgsoA0XD6BU20NIzfZ_SbsZzXUMbitQliN31FbI8UQbOaHSQ7gJbuTQ-fxxQsUUMFOmJjjM7OUmO8_if8aThivvJj27ouxxRtAzDXvaK">
+</div>
+<div class="z-20 mt-auto relative">
+<h2 class="font-bricolage text-[4.5rem] font-black text-white/95 leading-[0.85] -ml-1 mb-6 uppercase tracking-tighter">SEXY</h2>
+<div class="flex items-center justify-between gap-4 bg-black/20 p-4 rounded-2xl backdrop-blur-sm">
+<p class="text-white/90 text-sm font-medium leading-snug">
+          Ready for a bit of spice?
+        </p>
+<div class="shrink-0 ml-2">
+<input checked="" class="hidden toggle-checkbox toggle-sexy" id="toggle-sexy" type="checkbox">
+<label class="toggle-label" for="toggle-sexy">
+<span class="toggle-inner"></span>
+</label>
+</div>
+</div>
+</div>
+</section>
+<!-- Edgy Theme -->
+<section class="w-[82vw] max-w-[320px] h-[65vh] max-h-[500px] min-h-[420px] shrink-0 snap-center rounded-[32px] bg-gradient-to-br from-indigo-500 to-purple-700 relative overflow-hidden flex flex-col justify-between p-6 shadow-xl shadow-purple-900/40 border border-white/10" data-purpose="theme-option-edgy">
+<div class="absolute -top-6 -right-12 w-[110%] h-auto z-0 opacity-80 mix-blend-color-burn pointer-events-none">
+<img alt="Edgy Theme BG" class="w-full h-full object-contain rotate-12 blur-[4px]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDX3qJcoHVMF3UwcMhfqpyz59XXgxlRBAu9ex812UVxcXaTYpXExN4KP42xSqI-2qpIQSnxUWeeQ_yDTumKa4q0zQqEFt8AR_6RXet6G9c-2ToOno2MlvZNcJIvWibeNyUu_9eqOMw1-v4DGff89SMFTC330WV5iIFtcFIiv1gj6sx2T3D9YsI5taXPql5vWFP_e_vjpXf72zge2yicLF9T9QhjM53jglNWuLIxSViNMX9F-McT3i8h">
+</div>
+<div class="absolute top-4 -right-4 w-64 h-64 z-10 pointer-events-none">
+<img alt="Edgy Theme Sticker" class="w-full h-full object-contain -rotate-6 drop-shadow-2xl scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDX3qJcoHVMF3UwcMhfqpyz59XXgxlRBAu9ex812UVxcXaTYpXExN4KP42xSqI-2qpIQSnxUWeeQ_yDTumKa4q0zQqEFt8AR_6RXet6G9c-2ToOno2MlvZNcJIvWibeNyUu_9eqOMw1-v4DGff89SMFTC330WV5iIFtcFIiv1gj6sx2T3D9YsI5taXPql5vWFP_e_vjpXf72zge2yicLF9T9QhjM53jglNWuLIxSViNMX9F-McT3i8h">
+</div>
+<div class="z-20 mt-auto relative">
+<h2 class="font-bricolage text-[4.5rem] font-black text-white/95 leading-[0.85] -ml-1 mb-6 uppercase tracking-tighter">EDGY</h2>
+<div class="flex items-center justify-between gap-4 bg-black/20 p-4 rounded-2xl backdrop-blur-sm">
+<p class="text-white/90 text-sm font-medium leading-snug">
+          Get ready to test those limits!
+        </p>
+<div class="shrink-0 ml-2">
+<input checked="" class="hidden toggle-checkbox toggle-edgy" id="toggle-edgy" type="checkbox">
+<label class="toggle-label" for="toggle-edgy">
+<span class="toggle-inner"></span>
+</label>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- END: Main Content -->
+<!-- BEGIN: Bottom Action Area -->
+<div class="fixed bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-[#0c0022] via-[#0c0022]/80 to-transparent pointer-events-none z-50 pb-8" data-purpose="bottom-action-container">
+<button class="w-full btn-play text-white font-bricolage font-bold text-2xl py-5 rounded-full flex items-center justify-center gap-3 shadow-[0_0_40px_rgba(59,7,248,0.4)] border border-white/20 pointer-events-auto">
+<i class="fa-solid fa-play"></i>
+      Play game
+    </button>
+</div>
+<!-- END: Bottom Action Area -->
+
+
+</body></html>

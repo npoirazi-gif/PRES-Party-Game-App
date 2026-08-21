@@ -1,12 +1,31 @@
 import React from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Feather } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import colors from '@/constants/colors';
-import { vibes } from '@/data/games';
+import { games } from '@/data/games';
 import { usePres } from '@/context/PresContext';
+
+const gameImages: Record<string, any> = {
+  'most-likely-to':    require('@/assets/images/games/most-likely-to.png'),
+  'never-have-i-ever': require('@/assets/images/games/never-have-i-ever.png'),
+  'would-you-rather':  require('@/assets/images/games/would-you-rather.png'),
+  'id-game':           require('@/assets/images/games/id-game.png'),
+  'back-to-back':      require('@/assets/images/games/back-to-back.png'),
+  'paranoia':          require('@/assets/images/games/paranoia.png'),
+  'truth-or-drink':    require('@/assets/images/games/truth-or-drink.png'),
+  'hot-seat':          require('@/assets/images/games/hot-seat.png'),
+  'exposed':           require('@/assets/images/games/exposed.png'),
+  '5-seconds':         require('@/assets/images/games/5-seconds.png'),
+  'categories':        require('@/assets/images/games/categories.png'),
+  'receipts':          require('@/assets/images/games/receipts.png'),
+  'bad-decisions':     require('@/assets/images/games/bad-decisions.png'),
+  'red-green-flag':    require('@/assets/images/games/red-green-flag.png'),
+  'drink-if':          require('@/assets/images/games/drink-if.png'),
+  'dare-or-drink':     require('@/assets/images/games/dare-or-drink.png'),
+};
 
 const c = colors.light;
 
@@ -21,7 +40,7 @@ function IconButton({ name, onPress }: { name: any; onPress: () => void }) {
 export default function Home() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
-  const { vibe, setVibe } = usePres();
+  const { addRecent } = usePres();
 
   return (
     <LinearGradient colors={['#3611D2', '#140B4A']} style={s.screen}>
@@ -49,18 +68,27 @@ export default function Home() {
           <Text style={s.tap}>TAP TO ENTER LIBRARY</Text>
         </View>
 
-        {/* Vibe picker — pinned to bottom */}
-        <View style={s.vibeSection}>
-          <Text style={s.sectionKicker}>WHAT'S THE VIBE?</Text>
-          <Text style={s.subtle}>Tell us what kind of pres you're having.</Text>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={s.vibeScroll}>
-            {vibes.map(item => (
+        {/* Pick a Game — pinned to bottom */}
+        <View style={s.pickSection}>
+          <View style={s.pickHeader}>
+            <Text style={s.sectionKicker}>PICK A GAME</Text>
+            <Pressable onPress={() => router.push('/library')} style={s.seeAll}>
+              <Text style={s.seeAllText}>SEE ALL</Text>
+            </Pressable>
+          </View>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={s.gameScroll}>
+            {games.map(game => (
               <Pressable
-                key={item}
-                onPress={() => { setVibe(item); router.push({ pathname: '/recommendations', params: { vibe: item } }); }}
-                style={({ pressed }) => [s.vibeCard, item === vibe && s.selected, pressed && s.pressed]}
+                key={game.id}
+                onPress={() => { addRecent(game.id); router.push({ pathname: '/game/[id]', params: { id: game.id } }); }}
+                style={({ pressed }) => [s.gameCard, pressed && s.pressed]}
               >
-                <Text style={s.vibeText}>{item}</Text>
+                <View style={s.gameSticker}>
+                  {gameImages[game.id] && (
+                    <Image source={gameImages[game.id]} style={s.gameStickerImg} resizeMode="contain" />
+                  )}
+                </View>
+                <Text style={s.gameCardName} numberOfLines={2}>{game.title}</Text>
               </Pressable>
             ))}
           </ScrollView>
@@ -84,11 +112,14 @@ const s = StyleSheet.create({
   entry: { flex: 1, alignItems: 'center', justifyContent: 'center' },
   logo: { color: c.text, fontSize: 82, fontWeight: '800', letterSpacing: 7, textShadowColor: 'rgba(255,255,255,0.18)', textShadowRadius: 18 },
   tap: { color: 'rgba(255,255,255,0.58)', fontSize: 13, fontWeight: '800', letterSpacing: 2, marginTop: 18 },
-  vibeSection: { paddingTop: 8 },
-  sectionKicker: { color: c.text, fontSize: 13, fontWeight: '800', letterSpacing: 1.7, marginBottom: 4 },
-  subtle: { color: 'rgba(255,255,255,0.58)', fontSize: 13 },
-  vibeScroll: { gap: 10, paddingTop: 14, paddingBottom: 4 },
-  vibeCard: { width: 128, height: 80, borderRadius: 14, backgroundColor: 'rgba(20,11,74,0.52)', borderWidth: 1.5, borderColor: 'rgba(255,255,255,0.12)', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 8 },
-  selected: { borderColor: c.accent },
-  vibeText: { color: c.text, fontSize: 13, fontWeight: '800', textAlign: 'center' },
+  pickSection: { paddingTop: 8 },
+  pickHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 },
+  sectionKicker: { color: c.text, fontSize: 13, fontWeight: '800', letterSpacing: 1.7 },
+  seeAll: { backgroundColor: 'rgba(255,255,255,0.12)', borderRadius: 99, paddingHorizontal: 12, paddingVertical: 5 },
+  seeAllText: { color: c.text, fontSize: 11, fontWeight: '800', letterSpacing: 1 },
+  gameScroll: { gap: 10, paddingBottom: 4 },
+  gameCard: { width: 88, alignItems: 'center' },
+  gameSticker: { width: 88, height: 88, borderRadius: 16, backgroundColor: '#FFFFFF', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', marginBottom: 7 },
+  gameStickerImg: { width: 80, height: 80, backgroundColor: '#FFFFFF' },
+  gameCardName: { color: 'rgba(255,255,255,0.85)', fontSize: 10, fontWeight: '700', textAlign: 'center', lineHeight: 13 },
 });
