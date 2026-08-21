@@ -48,7 +48,7 @@ export default function Home() {
 
   return (
     <LinearGradient colors={[GRAD_TOP, GRAD_BOT]} style={s.screen}>
-      <View style={[s.inner, { paddingTop: insets.top + 80, paddingBottom: insets.bottom + 28 }]}>
+      <View style={[s.inner, { paddingTop: insets.top + 12, paddingBottom: insets.bottom + 28 }]}>
 
         {/* Top utility bar */}
         <View style={s.header}>
