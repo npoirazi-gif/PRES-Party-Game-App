@@ -110,7 +110,7 @@ const s = StyleSheet.create({
   pressed: { opacity: 0.78 },
   logoPressed: { transform: [{ scale: 0.96 }], opacity: 0.8 },
   entry: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-  logoImg: { width: 220, height: 220 },
+  logoImg: { width: 310, height: 310 },
   logoPressed: { transform: [{ scale: 0.96 }], opacity: 0.8 },
   tap: { color: 'rgba(255,255,255,0.58)', fontSize: 13, fontWeight: '800', letterSpacing: 2, marginTop: 8 },
   pickSection: { paddingTop: 8 },
