@@ -88,15 +88,89 @@ your StyleSheets.
 
 ## 4. Native components
 
-If `src/components/native/` contains components matching your needs, import
-them:
+Import from the `components/native/*` entry points. These components use
+design-system tokens internally — never copy colour values into your screens.
 
-```ts
-import { Button } from '@workspace/pres-design-system/components/native/button';
+### PillButton
+
+Coral / violet / outline variants, full-width option, borderRadius 99.
+
+```tsx
+import { PillButton } from '@workspace/pres-design-system/components/native/pill-button';
+
+// Coral CTA (default)
+<PillButton label="Start Game" onPress={handleStart} />
+
+// Violet action
+<PillButton label="Join Room" onPress={handleJoin} variant="violet" />
+
+// Outline (ghost)
+<PillButton label="How to Play" onPress={handleHelp} variant="outline" />
+
+// Full-width with loading state
+<PillButton label="Loading…" onPress={() => {}} fullWidth loading />
 ```
 
-Native components never import from `src/components/ui/` (the web shadcn set).
-They match the same public API where React Native supports it.
+### GameCard
+
+White sticker panel with an artwork PNG slot, title, and player-count badge.
+
+```tsx
+import { GameCard } from '@workspace/pres-design-system/components/native/game-card';
+
+<GameCard
+  title="Chaos Mode"
+  artwork={require('../assets/chaos.png')}
+  playerCount={6}
+/>
+
+// Without artwork or badge
+<GameCard title="Classic" />
+```
+
+### LoserFateCard
+
+Dark surface, sticker image on the left, title + description on the right,
+optional toggle.
+
+```tsx
+import React from 'react';
+import { LoserFateCard } from '@workspace/pres-design-system/components/native/loser-fate-card';
+
+const [enabled, setEnabled] = React.useState(false);
+
+<LoserFateCard
+  title="Do 10 push-ups"
+  description="The loser must complete 10 push-ups right now."
+  image={require('../assets/pushup.png')}
+  enabled={enabled}
+  onToggle={setEnabled}
+/>
+
+// Static card without toggle
+<LoserFateCard title="Finish your drink" image={require('../assets/drink.png')} />
+```
+
+### SegmentedControl
+
+Short / Medium / Long round-length picker, 8 px radius, white active segment.
+
+```tsx
+import React from 'react';
+import {
+  SegmentedControl,
+  type RoundLength,
+} from '@workspace/pres-design-system/components/native/segmented-control';
+
+const [length, setLength] = React.useState<RoundLength>('medium');
+
+<SegmentedControl value={length} onChange={setLength} />
+```
+
+---
+
+> **Rule:** native components never import from `src/components/ui/` (the web
+> shadcn set). They match the same public API where React Native supports it.
 
 ---
 
