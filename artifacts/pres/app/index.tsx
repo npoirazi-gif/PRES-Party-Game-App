@@ -63,7 +63,7 @@ export default function Home() {
         {/* PRES logo — centred in remaining space */}
         <View style={s.entry}>
           <Pressable onPress={() => router.push('/library')} style={({ pressed }) => [pressed && s.logoPressed]}>
-            <Text style={s.logo}>PRES</Text>
+            <Image source={require('@/assets/images/pres-logo.png')} style={s.logoImg} resizeMode="contain" />
           </Pressable>
           <Text style={s.tap}>TAP TO ENTER LIBRARY</Text>
         </View>
@@ -110,16 +110,17 @@ const s = StyleSheet.create({
   pressed: { opacity: 0.78 },
   logoPressed: { transform: [{ scale: 0.96 }], opacity: 0.8 },
   entry: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-  logo: { color: c.text, fontSize: 82, fontWeight: '800', letterSpacing: 7, textShadowColor: 'rgba(255,255,255,0.18)', textShadowRadius: 18 },
-  tap: { color: 'rgba(255,255,255,0.58)', fontSize: 13, fontWeight: '800', letterSpacing: 2, marginTop: 18 },
+  logoImg: { width: 220, height: 220 },
+  logoPressed: { transform: [{ scale: 0.96 }], opacity: 0.8 },
+  tap: { color: 'rgba(255,255,255,0.58)', fontSize: 13, fontWeight: '800', letterSpacing: 2, marginTop: 8 },
   pickSection: { paddingTop: 8 },
   pickHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 },
-  sectionKicker: { color: c.text, fontSize: 13, fontWeight: '800', letterSpacing: 1.7 },
+  sectionKicker: { color: c.text, fontSize: 16, fontWeight: '800', letterSpacing: 1.7 },
   seeAll: { backgroundColor: 'rgba(255,255,255,0.12)', borderRadius: 99, paddingHorizontal: 12, paddingVertical: 5 },
   seeAllText: { color: c.text, fontSize: 11, fontWeight: '800', letterSpacing: 1 },
-  gameScroll: { gap: 10, paddingBottom: 4 },
-  gameCard: { width: 88, alignItems: 'center' },
-  gameSticker: { width: 88, height: 88, borderRadius: 16, backgroundColor: '#FFFFFF', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', marginBottom: 7 },
-  gameStickerImg: { width: 80, height: 80, backgroundColor: '#FFFFFF' },
-  gameCardName: { color: 'rgba(255,255,255,0.85)', fontSize: 10, fontWeight: '700', textAlign: 'center', lineHeight: 13 },
+  gameScroll: { gap: 12, paddingBottom: 4 },
+  gameCard: { width: 104, alignItems: 'center' },
+  gameSticker: { width: 104, height: 104, borderRadius: 18, backgroundColor: '#FFFFFF', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', marginBottom: 8 },
+  gameStickerImg: { width: 94, height: 94, backgroundColor: '#FFFFFF' },
+  gameCardName: { color: 'rgba(255,255,255,0.85)', fontSize: 11, fontWeight: '700', textAlign: 'center', lineHeight: 14 },
 });
