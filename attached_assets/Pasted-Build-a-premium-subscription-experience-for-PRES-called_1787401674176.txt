@@ -1,0 +1,323 @@
+Build a premium subscription experience for PRES called **PRES+**.
+
+IMPORTANT:
+Use the existing PRES UI and visual identity exactly as it currently exists.
+
+Do NOT redesign the app's colours, typography, gradients, cards or general visual language.
+
+The purpose of this task is to design and implement the PREMIUM PAGE, the premium feature presentation and the points in the app where users can discover and upgrade to PRES+.
+
+==================================================
+PREMIUM POSITIONING
+===================
+
+PRES+ should feel like an optional upgrade that gives users the FULL PRES experience.
+
+Do not make the free version feel deliberately crippled.
+
+The free version should still contain plenty of games and questions.
+
+Premium should focus on:
+
+* More content
+* More variety
+* More customisation
+* More chaotic/unhinged content
+* Exclusive features
+* No ads if ads are introduced later
+
+The messaging should feel confident and playful rather than corporate or overly sales-focused.
+
+Avoid phrases like:
+“Upgrade your subscription”
+“Unlock your benefits”
+“Premium membership”
+
+Prefer:
+“Unlock PRES+”
+“Get the full PRES experience”
+“Take it further”
+“Unlock the good stuff”
+
+==================================================
+PRES+ FEATURES
+==============
+
+Present the following premium features:
+
+🔥 UNHINGED MODE
+Unlock the wildest and most chaotic questions and prompts.
+
+🌶️ FULL SPICY LIBRARY
+Access the full collection of Spicy questions across all compatible games.
+
+🎯 UNLIMITED QUESTIONS
+No limits on questions during a session.
+
+✍️ CUSTOM PRES
+Create your own questions, prompts and challenges for your mates.
+
+🎲 PARTY MIX
+Let PRES automatically mix different games and choose what your group should play next.
+
+🧠 SMART VIBES
+Get more personalised game and question recommendations based on the type of pres you're having.
+
+🏆 EXCLUSIVE GAMES
+Access future games and special PRES experiences released exclusively for PRES+.
+
+🚫 AD-FREE
+If advertising is introduced to the free version, PRES+ users should have an ad-free experience.
+
+==================================================
+PREMIUM PAGE STRUCTURE
+======================
+
+At the top:
+
+PRES+
+
+Headline:
+
+“Take your pres further.”
+
+Supporting text:
+
+“More games. More questions. More chaos.”
+
+Then show a visually strong preview of the premium experience using the existing PRES design language.
+
+Below this, show the premium features as individual rounded cards/rows.
+
+Each feature should have:
+
+* Small illustration/icon
+* Feature name
+* One-line explanation
+* Clear indication that it is included with PRES+
+
+==================================================
+PRICING
+=======
+
+Design the page so pricing can easily be changed later.
+
+Initially support:
+
+MONTHLY
+£X.XX / month
+
+YEARLY
+£XX.XX / year
+
+The yearly option should visually communicate that it offers better value.
+
+Do not hard-code pricing throughout the application.
+
+Store pricing in a central configuration so it can be changed later.
+
+Do not process payments yet unless a payment system is already configured.
+
+The UI should be ready for integration with Apple App Store / Google Play subscriptions later.
+
+==================================================
+PRIMARY CTA
+===========
+
+At the bottom of the Premium page, use a strong CTA:
+
+“Unlock PRES+”
+
+Underneath, include:
+
+“Cancel anytime.”
+
+Do not use aggressive countdown timers, fake scarcity or manipulative messaging.
+
+==================================================
+HOW USERS DISCOVER PREMIUM
+==========================
+
+Do NOT rely solely on the Premium page being accessible from Settings.
+
+Create natural Premium discovery points throughout the app.
+
+1. UNHINGED CONTENT
+
+When a free user attempts to access an Unhinged question:
+
+Show a Premium preview screen.
+
+Headline:
+
+“YOU FOUND THE GOOD STUFF.”
+
+Supporting text:
+
+“Unlock PRES+ to access the full Unhinged library.”
+
+CTA:
+
+“Unlock PRES+”
+
+Include a secondary:
+
+“Maybe later”
+
+2. CUSTOM PRES
+
+If a free user taps Custom Pres:
+
+Show:
+
+“MAKE PRES YOURS”
+
+“Create your own questions, inside jokes and challenges with PRES+.”
+
+CTA:
+
+“Unlock PRES+”
+
+3. PARTY MIX
+
+If a free user taps Party Mix:
+
+Show:
+
+“LET PRES DECIDE”
+
+“Let PRES mix games and keep the night moving.”
+
+CTA:
+
+“Unlock PRES+”
+
+4. EXCLUSIVE GAMES
+
+Premium-only games should display a small PRES+ badge.
+
+When tapped, show the Premium conversion screen.
+
+5. HOMEPAGE
+
+Add a subtle PRES+ entry point to the homepage.
+
+Do NOT make it dominate the homepage.
+
+It should feel like a natural part of the navigation.
+
+Example:
+
+“PRES+”
+“Take your pres further →”
+
+==================================================
+PREMIUM PREVIEW BEHAVIOUR
+=========================
+
+Whenever possible, let free users SEE what they're missing before asking them to subscribe.
+
+For example:
+
+Show a blurred/partially obscured Unhinged question card.
+
+Then:
+
+“Unlock PRES+ to reveal”
+
+This should create curiosity without making the free experience frustrating.
+
+==================================================
+FREE VS PREMIUM
+===============
+
+Create a simple comparison section on the Premium page.
+
+FREE:
+✓ Core games
+✓ Standard questions
+✓ Basic vibes
+✓ Standard game modes
+
+PRES+:
+✓ Everything in Free
+✓ Unhinged mode
+✓ Full Spicy library
+✓ Unlimited questions
+✓ Custom Pres
+✓ Party Mix
+✓ Smart Vibes
+✓ Exclusive games
+✓ Ad-free
+
+==================================================
+PREMIUM USER STATE
+==================
+
+The application needs a central premium entitlement state.
+
+For example:
+
+isPremium = true / false
+
+Do not scatter premium checks throughout the UI.
+
+Create a reusable premium-access system that determines whether a user can access premium features.
+
+This should make it easy to connect a real subscription provider later.
+
+For development, allow a test premium state so all premium features can be tested without making a real purchase.
+
+==================================================
+IMPORTANT MONETISATION PRINCIPLE
+================================
+
+PRES should NEVER feel like:
+
+“Pay us or you can't play.”
+
+Instead it should feel like:
+
+“PRES is already fun for free. PRES+ makes it even better.”
+
+The free experience must remain genuinely useful.
+
+Premium should be sold through:
+
+* Better content
+* More variety
+* More customisation
+* More chaos
+* Exclusive experiences
+
+==================================================
+FINAL UX FLOW
+=============
+
+Homepage
+↓
+User chooses a vibe
+↓
+User chooses a game
+↓
+User encounters premium content naturally
+↓
+Premium preview
+↓
+PRES+ page
+↓
+Choose monthly/yearly
+↓
+Unlock PRES+
+
+Also allow:
+
+Homepage
+↓
+PRES+
+↓
+Premium page
+↓
+Subscribe
+
+The Premium page should feel like part of PRES rather than a generic subscription/paywall screen.
