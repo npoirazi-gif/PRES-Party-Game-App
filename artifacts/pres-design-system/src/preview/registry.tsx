@@ -183,6 +183,11 @@ const AppliedPreGameFlowDemo = lazyPage(() =>
     ({ AppliedPreGameFlowDemo }) => AppliedPreGameFlowDemo,
   ),
 );
+const AppliedHomeScreenDemo = lazyPage(() =>
+  import('./demos/applied-home-screen').then(
+    ({ AppliedHomeScreenDemo }) => AppliedHomeScreenDemo,
+  ),
+);
 
 export type PreviewEntry = {
   // Globally unique across every group — it is the deep-link slug (`#page=<id>`)
@@ -623,6 +628,13 @@ export const NAV_GROUPS: NavGroup[] = [
         description:
           'Game-settings screen: section kickers, segmented round-length control, Loser\'s Fate toggle rows, and a full-width pill Continue button on an indigo/violet gradient.',
         Page: AppliedPreGameFlowDemo,
+      },
+      {
+        id: 'applied-home-screen',
+        name: 'Home screen',
+        description:
+          'Full discovery layout: indigo gradient, section kickers, horizontal game-card rows, and a persistent bottom tab bar.',
+        Page: AppliedHomeScreenDemo,
       },
     ],
   },
