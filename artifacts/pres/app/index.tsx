@@ -44,7 +44,16 @@ function IconButton({ name, onPress }: { name: any; onPress: () => void }) {
 export default function Home() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
-  const { addRecent } = usePres();
+  const { addRecent, isPremium, canAccessPremium } = usePres();
+
+  const openGame = (game: (typeof games)[number]) => {
+    if (game.premium && !canAccessPremium('unhinged')) {
+      router.push({ pathname: '/premium-preview', params: { feature: 'unhinged' } } as any);
+      return;
+    }
+    addRecent(game.id);
+    router.push({ pathname: '/game-settings', params: { id: game.id } });
+  };
 
   return (
     <LinearGradient colors={[GRAD_TOP, GRAD_BOT]} style={s.screen}>
@@ -54,8 +63,9 @@ export default function Home() {
         <View style={s.header}>
           <View style={s.left}>
             <IconButton name="globe" onPress={() => {}} />
-            <Pressable onPress={() => router.push('/premium')} style={s.premium}>
-              <Text style={s.premiumText}>Premium</Text>
+            <Pressable testID="home-pres-plus" onPress={() => router.push('/premium')} style={s.premium}>
+              <Feather name={isPremium ? 'check' : 'star'} size={15} color={c.foreground} />
+              <Text style={s.premiumText}>{isPremium ? 'PRES+ ON' : 'PRES+'}</Text>
             </Pressable>
           </View>
           <View style={s.left}>
@@ -84,7 +94,7 @@ export default function Home() {
             {games.map(game => (
               <Pressable
                 key={game.id}
-                onPress={() => { addRecent(game.id); router.push({ pathname: '/game-settings', params: { id: game.id } }); }}
+                onPress={() => openGame(game)}
                 style={({ pressed }) => [s.gameCard, pressed && s.pressed]}
               >
                 <View style={s.gameSticker}>
@@ -109,7 +119,7 @@ const s = StyleSheet.create({
   header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 0 },
   left: { flexDirection: 'row', alignItems: 'center', gap: 10 },
   icon: { width: 48, height: 48, borderRadius: 14, backgroundColor: 'rgba(255,255,255,0.1)', alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: 'rgba(255,255,255,0.08)' },
-  premium: { height: 48, paddingHorizontal: 18, borderRadius: 14, borderWidth: 2, borderColor: c.accent, backgroundColor: 'rgba(20,11,74,0.45)', justifyContent: 'center' },
+  premium: { height: 48, paddingHorizontal: 14, borderRadius: 14, borderWidth: 2, borderColor: c.accent, backgroundColor: 'rgba(20,11,74,0.45)', justifyContent: 'center', flexDirection: 'row', alignItems: 'center', gap: 6 },
   premiumText: { color: c.foreground, fontWeight: '800', fontSize: 16 },
   pressed: { opacity: 0.78 },
   logoPressed: { transform: [{ scale: 0.96 }], opacity: 0.8 },

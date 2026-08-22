@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Alert, Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Feather } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
@@ -45,19 +45,46 @@ export default function Library() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const [filter, setFilter] = useState('ALL');
-  const { addRecent } = usePres();
+  const { addRecent, isPremium, canAccessPremium } = usePres();
   const shown = useMemo(() => filter === 'ALL' ? games : games.filter((game) => {
     if (filter === 'PARTY CLASSIC') return labels[game.id] === filter;
     if (filter === 'SPICY') return labels[game.id] === filter || game.heat === 'Spicy' || game.heat === 'Inferno';
     return labels[game.id] === filter || game.heat === 'Mild' || game.heat === 'Medium';
   }), [filter]);
+  const openGame = (game: Game) => {
+    if (game.premium && !canAccessPremium('exclusive-games')) {
+      router.push({ pathname: '/premium-preview', params: { feature: 'exclusive-games' } } as any);
+      return;
+    }
+    addRecent(game.id);
+    router.push({ pathname: '/game-settings', params: { id: game.id } });
+  };
+  const openPlusTool = (feature: 'custom-pres' | 'party-mix') => {
+    if (!canAccessPremium(feature)) {
+      router.push({ pathname: '/premium-preview', params: { feature } } as any);
+      return;
+    }
+    Alert.alert('Coming soon', `${feature === 'custom-pres' ? 'Custom Pres' : 'Party Mix'} is included with your PRES+ access and will be ready in a future update.`);
+  };
   return <LinearGradient colors={[GRAD_TOP, GRAD_BOT]} style={styles.screen}>
     <View style={styles.glowTop} /><View style={styles.glowBottom} />
     <ScrollView contentContainerStyle={[styles.content, { paddingTop: insets.top + 16, paddingBottom: insets.bottom + 30 }]} showsVerticalScrollIndicator={false}>
       <Pressable onPress={() => router.back()} style={styles.back}><Feather name="arrow-left" size={22} color={c.foreground} /></Pressable>
       <View style={styles.heading}><Text style={styles.title}>Games</Text><Text style={styles.sub}>Select a game to start the party.</Text></View>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.filters}>{filters.map((item) => <Pressable key={item} onPress={() => setFilter(item)} style={[styles.filter, filter === item && styles.activeFilter]}><Text style={[styles.filterText, filter === item && styles.activeFilterText]}>{item}</Text></Pressable>)}</ScrollView>
-      <View style={styles.grid}>{shown.map((game, index) => <GameCard key={game.id} game={game} index={index} onPress={() => { addRecent(game.id); router.push({ pathname: '/game-settings', params: { id: game.id } }); }} />)}</View>
+       <View style={styles.plusTools}>
+         <Pressable testID="library-custom-pres" onPress={() => openPlusTool('custom-pres')} style={({ pressed }) => [styles.plusTool, pressed && styles.pressed]}>
+           <View style={styles.plusToolIcon}><Feather name="edit-3" size={17} color={c.accent} /></View>
+           <View style={styles.plusToolCopy}><Text style={styles.plusToolTitle}>Custom Pres</Text><Text style={styles.plusToolSub}>Make it yours</Text></View>
+           <View style={styles.plusBadge}><Text style={styles.plusBadgeText}>PRES+</Text></View>
+         </Pressable>
+         <Pressable testID="library-party-mix" onPress={() => openPlusTool('party-mix')} style={({ pressed }) => [styles.plusTool, pressed && styles.pressed]}>
+           <View style={styles.plusToolIcon}><Feather name="shuffle" size={17} color={c.accent} /></View>
+           <View style={styles.plusToolCopy}><Text style={styles.plusToolTitle}>Party Mix</Text><Text style={styles.plusToolSub}>Let PRES decide</Text></View>
+           <View style={styles.plusBadge}><Text style={styles.plusBadgeText}>PRES+</Text></View>
+         </Pressable>
+       </View>
+       <View style={styles.grid}>{shown.map((game, index) => <GameCard key={game.id} game={game} index={index} onPress={() => openGame(game)} />)}</View>
     </ScrollView>
   </LinearGradient>;
 }
@@ -73,8 +100,11 @@ function GameCard({ game, index, onPress }: { game: Game; index: number; onPress
     </View>
     <Text style={styles.gameTitle} numberOfLines={1}>{game.title === 'Never Have I Ever' ? 'Never Have I' : game.title}</Text>
     <Text style={styles.gameDescription}>{descriptions[game.id] ?? game.short}</Text>
-    {label && <View style={[styles.badge, { backgroundColor: badgeColor }]}><Text style={[styles.badgeText, label === 'PARTY CLASSIC' && styles.limeText]}>{label}</Text></View>}
+    <View style={styles.cardBadges}>
+      {label && <View style={[styles.badge, { backgroundColor: badgeColor }]}><Text style={[styles.badgeText, label === 'PARTY CLASSIC' && styles.limeText]}>{label}</Text></View>}
+      {game.premium && <View style={styles.premiumGameBadge}><Feather name="lock" size={9} color={c.foreground} /><Text style={styles.premiumGameBadgeText}>PRES+</Text></View>}
+    </View>
   </Pressable>;
 }
 
-const styles = StyleSheet.create({ screen: { flex: 1, overflow: 'hidden' }, content: { paddingHorizontal: 24 }, glowTop: { position: 'absolute', width: 230, height: 230, borderRadius: 120, backgroundColor: 'rgba(255,75,137,0.16)', top: -80, left: -80 }, glowBottom: { position: 'absolute', width: 230, height: 230, borderRadius: 120, backgroundColor: 'rgba(183,247,0,0.13)', bottom: -80, right: -80 }, back: { width: 48, height: 48, borderRadius: 14, backgroundColor: 'rgba(255,255,255,0.1)', alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)', marginBottom: 22 }, heading: { marginBottom: 2 }, title: { color: c.foreground, fontSize: 38, lineHeight: 45, fontWeight: '800' }, sub: { color: 'rgba(255,255,255,0.8)', fontSize: 15, marginTop: 4 }, filters: { gap: 8, paddingVertical: 22 }, filter: { paddingHorizontal: 15, paddingVertical: 10, borderRadius: 10, backgroundColor: 'rgba(255,255,255,0.1)', borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)' }, activeFilter: { backgroundColor: c.foreground, borderColor: c.foreground }, filterText: { color: c.foreground, fontSize: 10, fontWeight: '800', letterSpacing: 0.7 }, activeFilterText: { color: c.background }, grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 14 }, card: { width: '47.8%', borderWidth: 1, borderColor: 'rgba(255,255,255,0.12)', borderRadius: 24, padding: 10, alignItems: 'center', backgroundColor: c.background, minHeight: 235, shadowColor: '#000', shadowOpacity: 0.28, shadowRadius: 16, shadowOffset: { width: 0, height: 8 }, elevation: 5 }, pressed: { opacity: 0.82, transform: [{ scale: 0.98 }] }, stickerPanel: { width: '100%', height: 130, backgroundColor: '#FFFFFF', borderRadius: 14, marginBottom: 10, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }, stickerImg: { width: 112, height: 112, backgroundColor: '#FFFFFF' }, stickerFallback: { width: 88, height: 88, borderRadius: 44, alignItems: 'center', justifyContent: 'center' }, gameTitle: { color: c.foreground, fontSize: 16, fontWeight: '800', textAlign: 'center', marginBottom: 3 }, gameDescription: { color: 'rgba(255,255,255,0.6)', fontSize: 11, textAlign: 'center', marginBottom: 9 }, badge: { paddingHorizontal: 10, paddingVertical: 5, borderRadius: 8 }, badgeText: { color: c.foreground, fontSize: 9, fontWeight: '800', letterSpacing: 0.7 }, limeText: { color: '#141F00' } });
+const styles = StyleSheet.create({ screen: { flex: 1, overflow: 'hidden' }, content: { paddingHorizontal: 24 }, glowTop: { position: 'absolute', width: 230, height: 230, borderRadius: 120, backgroundColor: 'rgba(255,75,137,0.16)', top: -80, left: -80 }, glowBottom: { position: 'absolute', width: 230, height: 230, borderRadius: 120, backgroundColor: 'rgba(183,247,0,0.13)', bottom: -80, right: -80 }, back: { width: 48, height: 48, borderRadius: 14, backgroundColor: 'rgba(255,255,255,0.1)', alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)', marginBottom: 22 }, heading: { marginBottom: 2 }, title: { color: c.foreground, fontSize: 38, lineHeight: 45, fontWeight: '800' }, sub: { color: 'rgba(255,255,255,0.8)', fontSize: 15, marginTop: 4 }, filters: { gap: 8, paddingVertical: 22 }, filter: { paddingHorizontal: 15, paddingVertical: 10, borderRadius: 10, backgroundColor: 'rgba(255,255,255,0.1)', borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)' }, activeFilter: { backgroundColor: c.foreground, borderColor: c.foreground }, filterText: { color: c.foreground, fontSize: 10, fontWeight: '800', letterSpacing: 0.7 }, activeFilterText: { color: c.background }, plusTools: { flexDirection: 'row', gap: 10, marginBottom: 18 }, plusTool: { flex: 1, minHeight: 88, padding: 11, borderRadius: 18, backgroundColor: 'rgba(255,255,255,0.09)', borderWidth: 1, borderColor: 'rgba(255,107,74,0.42)' }, plusToolIcon: { width: 32, height: 32, borderRadius: 11, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255,107,74,0.14)' }, plusToolCopy: { marginTop: 8 }, plusToolTitle: { color: c.foreground, fontSize: 13, fontWeight: '800' }, plusToolSub: { color: 'rgba(255,255,255,0.56)', fontSize: 10, marginTop: 2 }, plusBadge: { position: 'absolute', top: 10, right: 9, paddingHorizontal: 5, paddingVertical: 3, borderRadius: 5, backgroundColor: c.accent }, plusBadgeText: { color: c.foreground, fontSize: 8, fontWeight: '900' }, grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 14 }, card: { width: '47.8%', borderWidth: 1, borderColor: 'rgba(255,255,255,0.12)', borderRadius: 24, padding: 10, alignItems: 'center', backgroundColor: c.background, minHeight: 235, shadowColor: '#000', shadowOpacity: 0.28, shadowRadius: 16, shadowOffset: { width: 0, height: 8 }, elevation: 5 }, pressed: { opacity: 0.82, transform: [{ scale: 0.98 }] }, stickerPanel: { width: '100%', height: 130, backgroundColor: '#FFFFFF', borderRadius: 14, marginBottom: 10, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }, stickerImg: { width: 112, height: 112, backgroundColor: '#FFFFFF' }, stickerFallback: { width: 88, height: 88, borderRadius: 44, alignItems: 'center', justifyContent: 'center' }, gameTitle: { color: c.foreground, fontSize: 16, fontWeight: '800', textAlign: 'center', marginBottom: 3 }, gameDescription: { color: 'rgba(255,255,255,0.6)', fontSize: 11, textAlign: 'center', marginBottom: 9 }, cardBadges: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: 5 }, badge: { paddingHorizontal: 10, paddingVertical: 5, borderRadius: 8 }, badgeText: { color: c.foreground, fontSize: 9, fontWeight: '800', letterSpacing: 0.7 }, limeText: { color: '#141F00' }, premiumGameBadge: { flexDirection: 'row', alignItems: 'center', gap: 3, paddingHorizontal: 7, paddingVertical: 5, borderRadius: 8, backgroundColor: c.accent }, premiumGameBadgeText: { color: c.foreground, fontSize: 8, fontWeight: '900', letterSpacing: 0.4 } });

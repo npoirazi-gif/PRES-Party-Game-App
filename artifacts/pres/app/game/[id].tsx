@@ -17,6 +17,7 @@ import * as Haptics from 'expo-haptics';
 import { dsColor } from '@/constants/ds';
 import { gameById } from '@/data/games';
 import { usePres } from '@/context/PresContext';
+import { PREMIUM_BILLING_AVAILABLE } from '@/config/premium';
 
 // Art-directed gradient stops — intentionally not part of the token set
 const GRAD_TOP = '#3611D2';
@@ -366,13 +367,56 @@ function StartState({
   );
 }
 
+// ─── Premium access gate ──────────────────────────────────────────────────────
+function PremiumGameGate({ game }: { game: ReturnType<typeof gameById> }) {
+  const router = useRouter();
+  const insets = useSafeAreaInsets();
+
+  return (
+    <LinearGradient colors={[GRAD_TOP, GRAD_BOT]} style={styles.screen}>
+      <View style={[styles.gateContent, { paddingTop: insets.top + 16, paddingBottom: insets.bottom + 24 }]}>
+        <Pressable testID="game-premium-back" onPress={() => router.back()} style={styles.icon}>
+          <Feather name="arrow-left" size={20} color={c.foreground} />
+        </Pressable>
+        <View style={styles.gateCenter}>
+          <View style={styles.gateMark}><Feather name="lock" size={28} color={c.foreground} /></View>
+          <Text style={[styles.gateEyebrow, { color: game.color }]}>PRES+ EXCLUSIVE</Text>
+          <Text style={styles.gateTitle}>YOU FOUND THE GOOD STUFF.</Text>
+          <Text style={styles.gateSub}>Unlock PRES+ to play {game.title} and access the full Unhinged library.</Text>
+          <View style={styles.gatePreview}>
+            <Text style={styles.gatePreviewText}>Your group is one tap away from a very bad decision.</Text>
+            <View style={styles.gatePreviewVeil} />
+            <Text style={styles.gatePreviewLabel}>UNLOCK TO REVEAL</Text>
+          </View>
+          <Pressable testID="game-premium-unlock" onPress={() => router.push('/premium')} style={styles.gateButton}>
+            <Text style={styles.gateButtonText}>{PREMIUM_BILLING_AVAILABLE ? 'UNLOCK PRES+' : 'SEE PRES+ DETAILS'}</Text>
+            <Feather name="arrow-right" size={18} color={c.foreground} />
+          </Pressable>
+          {!PREMIUM_BILLING_AVAILABLE && <Text style={styles.gateAvailability}>Subscriptions are not available yet.</Text>}
+          <Pressable onPress={() => router.back()} style={styles.gateDismiss}><Text style={styles.gateDismissText}>Maybe later</Text></Pressable>
+        </View>
+      </View>
+    </LinearGradient>
+  );
+}
+
 // ─── Main screen ──────────────────────────────────────────────────────────────
 export default function GameScreen() {
   const { id, roundLength: rawRoundLength } = useLocalSearchParams<{
     id: string;
     roundLength?: string;
   }>();
-  const roundLength = rawRoundLength ?? 'medium';
+  const game = gameById(id);
+  const { canAccessPremium } = usePres();
+
+  if (game.premium && !canAccessPremium('unhinged')) {
+    return <PremiumGameGate game={game} />;
+  }
+
+  return <PlayableGameScreen id={id} roundLength={rawRoundLength ?? 'medium'} />;
+}
+
+function PlayableGameScreen({ id, roundLength }: { id: string; roundLength: string }) {
   const game = gameById(id);
   const router = useRouter();
   const insets = useSafeAreaInsets();
@@ -855,4 +899,19 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
   },
   outlineText: { fontWeight: '800', fontSize: 12 },
+  gateContent: { flex: 1, paddingHorizontal: 20 },
+  gateCenter: { flex: 1, alignItems: 'center', justifyContent: 'center', paddingBottom: 18 },
+  gateMark: { width: 76, height: 76, borderRadius: 26, backgroundColor: c.accent, alignItems: 'center', justifyContent: 'center', marginBottom: 22 },
+  gateEyebrow: { fontSize: 11, fontWeight: '900', letterSpacing: 1.8 },
+  gateTitle: { color: c.foreground, fontSize: 29, lineHeight: 36, fontWeight: '900', textAlign: 'center', marginTop: 10 },
+  gateSub: { color: 'rgba(255,255,255,0.66)', fontSize: 15, lineHeight: 22, textAlign: 'center', marginTop: 9, maxWidth: 320 },
+  gatePreview: { width: '100%', minHeight: 145, borderRadius: 22, padding: 24, alignItems: 'center', justifyContent: 'center', marginTop: 27, backgroundColor: 'rgba(255,255,255,0.1)', borderWidth: 1, borderColor: 'rgba(255,255,255,0.18)', overflow: 'hidden', position: 'relative' },
+  gatePreviewText: { color: c.foreground, fontSize: 20, lineHeight: 28, fontWeight: '800', textAlign: 'center', opacity: 0.22 },
+  gatePreviewVeil: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(20,11,74,0.6)' },
+  gatePreviewLabel: { position: 'absolute', color: c.foreground, backgroundColor: c.accent, borderRadius: 99, paddingHorizontal: 13, paddingVertical: 9, fontSize: 9, fontWeight: '900', letterSpacing: 0.8 },
+  gateButton: { width: '100%', minHeight: 56, borderRadius: 18, marginTop: 26, backgroundColor: c.accent, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 10 },
+  gateButtonText: { color: c.foreground, fontSize: 14, fontWeight: '900', letterSpacing: 1 },
+  gateAvailability: { color: 'rgba(255,255,255,0.48)', fontSize: 11, marginTop: 12 },
+  gateDismiss: { paddingVertical: 17, paddingHorizontal: 22 },
+  gateDismissText: { color: 'rgba(255,255,255,0.62)', fontSize: 14, fontWeight: '700' },
 });

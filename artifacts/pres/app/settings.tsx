@@ -5,6 +5,7 @@ import { Feather } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { dsColor } from '@/constants/ds';
+import { usePres } from '@/context/PresContext';
 
 // Art-directed gradient stops — intentionally not part of the token set
 const GRAD_TOP = '#3611D2';
@@ -26,6 +27,7 @@ const MENU: MenuItem[] = [
 export default function Settings() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
+  const { isPremium, setPremiumForTesting } = usePres();
 
   return (
     <LinearGradient colors={[GRAD_TOP, GRAD_BOT]} style={s.screen}>
@@ -58,6 +60,21 @@ export default function Settings() {
             />
           </Pressable>
         ))}
+        {__DEV__ && (
+          <View style={s.devSection}>
+            <Text style={s.devLabel}>DEVELOPMENT</Text>
+            <Pressable testID="premium-test-toggle" onPress={() => setPremiumForTesting(!isPremium)} style={s.devRow}>
+              <View style={s.rowLeft}>
+                <View style={s.rowIcon}><Feather name="star" size={18} color={c.accent} /></View>
+                <View>
+                  <Text style={s.rowTitle}>PRES+ Test Access</Text>
+                  <Text style={s.rowSub}>{isPremium ? 'On — premium is unlocked' : 'Off — preview premium gates'}</Text>
+                </View>
+              </View>
+              <View style={[s.testPill, isPremium && s.testPillActive]}><Text style={s.testPillText}>{isPremium ? 'ON' : 'OFF'}</Text></View>
+            </Pressable>
+          </View>
+        )}
       </ScrollView>
     </LinearGradient>
   );
@@ -75,4 +92,10 @@ const s = StyleSheet.create({
   rowIcon: { width: 40, height: 40, borderRadius: 12, backgroundColor: 'rgba(255,255,255,0.08)', borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)', alignItems: 'center', justifyContent: 'center' },
   rowTitle: { color: c.foreground, fontSize: 16, fontWeight: '700' },
   rowSub: { color: 'rgba(255,255,255,0.5)', fontSize: 12, marginTop: 3 },
+  devSection: { marginTop: 26 },
+  devLabel: { color: 'rgba(255,255,255,0.42)', fontSize: 10, fontWeight: '900', letterSpacing: 1.4, marginBottom: 7 },
+  devRow: { minHeight: 72, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: 12, borderTopWidth: 1, borderBottomWidth: 1, borderColor: 'rgba(255,255,255,0.1)' },
+  testPill: { borderRadius: 99, paddingHorizontal: 11, paddingVertical: 6, backgroundColor: 'rgba(255,255,255,0.12)' },
+  testPillActive: { backgroundColor: c.accent },
+  testPillText: { color: c.foreground, fontSize: 10, fontWeight: '900', letterSpacing: 0.7 },
 });
