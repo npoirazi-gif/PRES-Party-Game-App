@@ -173,6 +173,16 @@ const ToggleGroupDemo = lazyPage(() =>
 const TooltipDemo = lazyPage(() =>
   import('./demos/tooltip').then(({ TooltipDemo }) => TooltipDemo),
 );
+const AppliedGameCardDemo = lazyPage(() =>
+  import('./demos/applied-game-card').then(
+    ({ AppliedGameCardDemo }) => AppliedGameCardDemo,
+  ),
+);
+const AppliedPreGameFlowDemo = lazyPage(() =>
+  import('./demos/applied-pre-game-flow').then(
+    ({ AppliedPreGameFlowDemo }) => AppliedPreGameFlowDemo,
+  ),
+);
 
 export type PreviewEntry = {
   // Globally unique across every group — it is the deep-link slug (`#page=<id>`)
@@ -597,7 +607,25 @@ export const NAV_GROUPS: NavGroup[] = [
     ],
   },
   { name: 'Motion', entries: [] },
-  { name: 'Applied examples', entries: [] },
+  {
+    name: 'Applied examples',
+    entries: [
+      {
+        id: 'applied-game-card',
+        name: 'Game card',
+        description:
+          'Sticker-style card with artwork placeholder, player-count badge pill, and coral CTA — used on the home screen game picker.',
+        Page: AppliedGameCardDemo,
+      },
+      {
+        id: 'applied-pre-game-flow',
+        name: 'Pre-game flow',
+        description:
+          'Game-settings screen: section kickers, segmented round-length control, Loser\'s Fate toggle rows, and a full-width pill Continue button on an indigo/violet gradient.',
+        Page: AppliedPreGameFlowDemo,
+      },
+    ],
+  },
 ];
 
 export const ALL_ENTRIES: PreviewEntry[] = [

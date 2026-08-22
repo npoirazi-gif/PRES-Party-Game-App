@@ -129,6 +129,37 @@ export function OverviewPage() {
           <Badge variant="outline">Outline</Badge>
         </div>
       </section>
+
+      <section className="rounded-xl border bg-card p-5 text-card-foreground">
+        <h2 className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+          Applied examples
+        </h2>
+        <p className="mt-2 text-sm text-muted-foreground">
+          See how tokens and components combine into real PRES screens — with
+          copy-pasteable React Native patterns.
+        </p>
+        <div className="mt-4 grid gap-3 sm:grid-cols-2">
+          <a
+            href="#page=applied-game-card"
+            className="block rounded-lg border bg-muted/40 p-4 transition-colors hover:bg-muted"
+          >
+            <p className="font-semibold">Game card</p>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Sticker-style card with artwork, player badge pill, and coral CTA.
+            </p>
+          </a>
+          <a
+            href="#page=applied-pre-game-flow"
+            className="block rounded-lg border bg-muted/40 p-4 transition-colors hover:bg-muted"
+          >
+            <p className="font-semibold">Pre-game flow</p>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Settings screen with kickers, segmented control, toggle rows, and
+              pill Continue button.
+            </p>
+          </a>
+        </div>
+      </section>
     </div>
   );
 }
